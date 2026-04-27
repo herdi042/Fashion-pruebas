@@ -1,0 +1,755 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Inscripción — Fashion Incubator México</title>
+  <link rel="icon" type="image/png" href="https://i.postimg.cc/ryQNc0v0/fi-favicon.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400&family=Playfair+Display:ital,wght@0,700;1,400;1,700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --red: #E8001D;
+      --white: #F5F5F0;
+      --black: #0A0A0A;
+      --dark: #111111;
+      --white-65: rgba(245,245,240,0.65);
+      --white-55: rgba(245,245,240,0.55);
+      --white-15: rgba(255,255,255,0.15);
+      --white-07: rgba(255,255,255,0.07);
+    }
+    html { scroll-behavior: smooth; }
+    body { background: var(--black); color: var(--white); font-family: 'DM Sans', sans-serif; min-height: 100vh; }
+
+    /* HEADER */
+    .flow-header { display: flex; align-items: center; justify-content: space-between; padding: 24px 48px; border-bottom: 1px solid var(--white-07); position: sticky; top: 0; background: rgba(10,10,10,0.96); backdrop-filter: blur(6px); z-index: 50; }
+    .header-logo img { width: 52px; display: block; }
+    .header-label { display: flex; align-items: center; gap: 8px; }
+    .header-label-line { background: var(--red); height: 1px; width: 28px; }
+    .header-label-text { font-family: 'Bebas Neue', sans-serif; font-size: 13px; color: var(--red); letter-spacing: 4px; text-transform: uppercase; }
+
+    /* PROGRESS */
+    .progress-bar { display: flex; align-items: center; padding: 0 48px; background: var(--black); border-bottom: 1px solid var(--white-07); overflow-x: auto; }
+    .progress-step { display: flex; align-items: center; gap: 10px; padding: 14px 16px 14px 0; font-size: 11px; font-weight: 300; letter-spacing: 1px; text-transform: uppercase; color: rgba(245,245,240,0.3); transition: color 0.3s; white-space: nowrap; }
+    .progress-step.active { color: var(--white); }
+    .progress-step.done { color: var(--red); }
+    .step-num { width: 26px; height: 26px; border-radius: 50%; border: 1px solid rgba(245,245,240,0.2); display: flex; align-items: center; justify-content: center; font-family: 'Bebas Neue', sans-serif; font-size: 13px; transition: all 0.3s; flex-shrink: 0; }
+    .progress-step.active .step-num { border-color: var(--white); color: var(--white); }
+    .progress-step.done .step-num { background: var(--red); border-color: var(--red); color: white; }
+    .step-div { flex: 1; height: 1px; background: var(--white-07); min-width: 16px; }
+
+    /* LOADING */
+    .loading-screen { display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 60vh; gap: 16px; }
+    .loading-spinner { width: 40px; height: 40px; border: 2px solid rgba(232,0,29,0.2); border-top-color: var(--red); border-radius: 50%; animation: spin 0.8s linear infinite; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .loading-text { font-size: 13px; color: var(--white-65); letter-spacing: 1px; }
+
+    /* MAIN */
+    .flow-main { max-width: 920px; margin: 0 auto; padding: 56px 24px 80px; }
+    .step-panel { display: none; }
+    .step-panel.active { display: block; }
+
+    /* STEP LABEL */
+    .step-label { display: flex; align-items: center; gap: 12px; margin-bottom: 20px; }
+    .step-label-line { background: var(--red); height: 1px; width: 28px; }
+    .step-label-text { font-family: 'Bebas Neue', sans-serif; font-size: 12px; color: var(--red); letter-spacing: 4px; text-transform: uppercase; }
+    .step-heading .h1 { font-family: 'Playfair Display', serif; font-size: clamp(36px, 6vw, 56px); font-weight: 700; line-height: 1.1; color: var(--white); }
+    .step-heading .h1-red { font-family: 'Playfair Display', serif; font-size: clamp(36px, 6vw, 56px); font-weight: 700; font-style: italic; line-height: 1.1; color: var(--red); }
+    .step-sub { font-weight: 300; font-size: 17px; color: var(--white-65); line-height: 1.5; margin: 12px 0 36px; }
+
+    /* COURSE GRID */
+    .course-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--white-07); border: 1px solid var(--white-07); margin-bottom: 36px; }
+    .course-card { background: var(--black); padding: 32px 32px 28px; cursor: pointer; position: relative; transition: background 0.2s; border: 2px solid transparent; }
+    .course-card:hover { background: #0f0f0f; }
+    .course-card.selected { background: #111; border-color: var(--red); }
+    .course-checkbox { position: absolute; top: 20px; right: 20px; width: 22px; height: 22px; border: 1.5px solid var(--white-15); border-radius: 4px; display: flex; align-items: center; justify-content: center; transition: all 0.2s; font-size: 13px; }
+    .course-card.selected .course-checkbox { background: var(--red); border-color: var(--red); color: white; }
+    .course-num { font-family: 'Bebas Neue', sans-serif; font-size: 44px; color: rgba(232,0,29,0.22); line-height: 1; margin-bottom: 14px; }
+    .course-name { font-family: 'Playfair Display', serif; font-weight: 700; font-size: 20px; color: var(--white); margin-bottom: 8px; line-height: 1.25; padding-right: 32px; }
+    .course-desc { font-weight: 300; font-size: 13px; color: var(--white-55); line-height: 1.6; margin-bottom: 16px; }
+    .course-tags { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 16px; }
+    .course-tag { border: 0.8px solid var(--white-15); padding: 3px 10px; border-radius: 4px; font-size: 11px; color: var(--white-65); font-weight: 300; }
+    .course-price .amount { font-family: 'Playfair Display', serif; font-weight: 700; font-size: 26px; color: var(--white); }
+    .course-price .currency { font-weight: 300; font-size: 14px; color: var(--white-55); }
+    .course-more { display: inline-block; margin-top: 12px; font-size: 12px; color: var(--red); cursor: pointer; border-bottom: 1px solid rgba(232,0,29,0.35); padding-bottom: 1px; font-weight: 300; }
+    .course-more:hover { border-bottom-color: var(--red); }
+
+    /* SELECTION SUMMARY */
+    .selection-summary { background: var(--dark); border: 1px solid var(--white-07); padding: 20px 24px; margin-bottom: 28px; display: none; }
+    .selection-summary.visible { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; }
+    .summary-label { font-size: 13px; color: var(--white-65); }
+    .summary-courses { font-size: 14px; color: var(--white); font-weight: 400; }
+    .summary-count { font-family: 'Bebas Neue', sans-serif; font-size: 13px; color: var(--red); letter-spacing: 2px; }
+
+    /* FORM */
+    .form-box { background: var(--dark); border: 1px solid var(--white-07); padding: 36px; margin-bottom: 36px; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px; }
+    .form-group { display: flex; flex-direction: column; gap: 7px; margin-bottom: 20px; }
+    .form-group:last-child { margin-bottom: 0; }
+    .form-label { font-size: 13px; color: var(--white-65); font-weight: 400; }
+    .form-input, .form-select, .form-textarea { background: var(--black); border: 0.8px solid var(--white-15); padding: 13px 14px; color: var(--white); font-family: 'DM Sans', sans-serif; font-size: 14px; font-weight: 300; outline: none; width: 100%; transition: border-color 0.2s; }
+    .form-input:focus, .form-select:focus, .form-textarea:focus { border-color: var(--red); }
+    .form-select { appearance: none; cursor: pointer; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath fill='%23888' d='M0 0l5 6 5-6z'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 14px center; }
+    .form-select option { background: #111; }
+    .form-textarea { resize: vertical; min-height: 110px; line-height: 1.6; }
+
+    /* PAYMENT */
+    .payment-layout { display: grid; grid-template-columns: 1fr 300px; gap: 20px; margin-bottom: 36px; }
+    .payment-form { background: var(--dark); border: 1px solid var(--white-07); padding: 36px; }
+    .payment-sidebar { background: var(--dark); border: 1px solid var(--white-07); padding: 28px; align-self: start; }
+    .pay-section-title { font-family: 'Playfair Display', serif; font-weight: 700; font-size: 17px; color: var(--white); margin-bottom: 22px; }
+    .card-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .secure-note { display: flex; align-items: center; gap: 8px; font-size: 12px; color: rgba(245,245,240,0.35); margin-top: 18px; }
+    .sidebar-divider { border: none; border-top: 1px solid var(--white-07); margin: 16px 0; }
+    .sidebar-row { display: flex; justify-content: space-between; margin-bottom: 10px; }
+    .sidebar-lbl { font-size: 12px; color: var(--white-65); }
+    .sidebar-val { font-size: 12px; color: var(--white); text-align: right; max-width: 150px; }
+    .sidebar-courses-list { margin-bottom: 12px; }
+    .sidebar-course-item { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid var(--white-07); font-size: 12px; gap: 8px; }
+    .sidebar-course-name { color: var(--white); font-weight: 300; }
+    .sidebar-course-price { color: var(--white-65); white-space: nowrap; }
+    .sidebar-total-lbl { font-family: 'Playfair Display', serif; font-weight: 700; font-size: 16px; color: var(--white); }
+    .sidebar-total-val { font-family: 'Playfair Display', serif; font-weight: 700; font-size: 22px; color: var(--red); }
+
+    /* CONFIRMATION */
+    .confirm-center { text-align: center; margin-bottom: 36px; }
+    .check-icon { width: 112px; height: 112px; border-radius: 50%; background: rgba(232,0,29,0.1); display: flex; align-items: center; justify-content: center; margin: 0 auto 28px; }
+    .check-inner { width: 84px; height: 84px; border-radius: 50%; background: var(--red); display: flex; align-items: center; justify-content: center; font-size: 36px; color: white; }
+    .confirm-box { background: var(--dark); border: 1px solid var(--white-07); padding: 36px; margin-bottom: 20px; }
+    .confirm-order-row { display: flex; justify-content: space-between; align-items: flex-start; padding-bottom: 24px; border-bottom: 1px solid var(--white-07); margin-bottom: 28px; flex-wrap: wrap; gap: 16px; }
+    .confirm-lbl { font-size: 12px; color: var(--white-65); margin-bottom: 5px; }
+    .confirm-order-val { font-family: 'Playfair Display', serif; font-weight: 700; font-size: 20px; color: var(--white); }
+    .confirm-date { font-size: 14px; color: var(--white); font-weight: 300; }
+    .confirm-info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; margin-bottom: 24px; }
+    .confirm-section-title { font-family: 'Playfair Display', serif; font-weight: 700; font-size: 16px; color: var(--white); margin-bottom: 14px; }
+    .confirm-item { margin-bottom: 12px; }
+    .confirm-item-lbl { font-size: 12px; color: var(--white-65); margin-bottom: 2px; }
+    .confirm-item-val { font-size: 14px; color: var(--white); font-weight: 300; }
+    .confirm-courses-list { margin-bottom: 20px; }
+    .confirm-course-row { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid var(--white-07); font-size: 13px; }
+    .confirm-total-row { display: flex; justify-content: space-between; align-items: center; padding-top: 18px; border-top: 1px solid var(--white-07); }
+    .confirm-total-lbl { font-family: 'Playfair Display', serif; font-weight: 700; font-size: 17px; color: var(--white); }
+    .confirm-total-val { font-family: 'Playfair Display', serif; font-weight: 700; font-size: 26px; color: var(--red); }
+
+    /* NEXT STEPS */
+    .next-steps-box { background: var(--dark); border: 1px solid var(--white-07); padding: 36px; margin-bottom: 36px; }
+    .next-steps-title { font-family: 'Playfair Display', serif; font-weight: 700; font-size: 20px; color: var(--white); margin-bottom: 24px; }
+    .next-step { display: flex; gap: 14px; margin-bottom: 20px; }
+    .next-step-num { width: 30px; height: 30px; border-radius: 50%; background: rgba(232,0,29,0.15); display: flex; align-items: center; justify-content: center; font-family: 'Bebas Neue', sans-serif; font-size: 15px; color: var(--red); flex-shrink: 0; }
+    .next-step-title { font-size: 14px; color: var(--white); margin-bottom: 3px; }
+    .next-step-desc { font-size: 12px; color: var(--white-55); line-height: 1.6; font-weight: 300; }
+
+    /* LEMON SQUEEZY BANNER */
+    .ls-banner { background: rgba(232,0,29,0.06); border: 1px solid rgba(232,0,29,0.2); padding: 16px 20px; margin-bottom: 20px; display: flex; align-items: flex-start; gap: 12px; }
+    .ls-banner-icon { font-size: 18px; flex-shrink: 0; margin-top: 1px; }
+    .ls-banner-text { font-size: 13px; color: var(--white-65); line-height: 1.6; font-weight: 300; }
+    .ls-banner-text strong { color: var(--white); font-weight: 400; }
+
+    /* BUTTONS */
+    .btn-row { display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap; }
+    .btn-row.center { justify-content: center; }
+    .btn-back { border: 0.8px solid var(--white-15); color: var(--white); padding: 16px 28px; font-family: 'Bebas Neue', sans-serif; font-size: 15px; letter-spacing: 2px; background: transparent; cursor: pointer; transition: border-color 0.2s; }
+    .btn-back:hover { border-color: rgba(245,245,240,0.4); }
+    .btn-next { background: var(--red); color: white; padding: 16px 36px; font-family: 'Bebas Neue', sans-serif; font-size: 15px; letter-spacing: 2px; border: none; cursor: pointer; transition: background 0.2s; }
+    .btn-next:hover { background: #c8001a; }
+    .btn-next:disabled { background: #666; cursor: not-allowed; }
+    .btn-outline { border: 0.8px solid var(--white-15); color: var(--white); padding: 16px 28px; font-family: 'Bebas Neue', sans-serif; font-size: 15px; letter-spacing: 2px; background: transparent; cursor: pointer; text-decoration: none; display: inline-flex; align-items: center; }
+
+    /* DIALOG INFO CURSO */
+    .dlg-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.85); z-index: 200; overflow-y: auto; }
+    .dlg-overlay.open { display: block; }
+    .dlg-box { background: #111; max-width: 500px; margin: 60px auto; padding: 36px; position: relative; }
+    .dlg-close { position: absolute; top: 18px; right: 18px; background: none; border: 1px solid rgba(255,255,255,0.15); color: white; width: 32px; height: 32px; cursor: pointer; font-size: 14px; display: flex; align-items: center; justify-content: center; }
+    .dlg-tag { display: flex; align-items: center; gap: 10px; margin-bottom: 18px; }
+    .dlg-tag-line { background: var(--red); height: 1px; width: 24px; }
+    .dlg-tag-text { font-family: 'Bebas Neue', sans-serif; font-size: 11px; color: var(--red); letter-spacing: 3px; }
+    .dlg-title { font-family: 'Bebas Neue', sans-serif; font-size: 44px; color: white; line-height: 1; margin-bottom: 10px; }
+    .dlg-dur { font-size: 13px; color: var(--white-65); padding-bottom: 18px; border-bottom: 1px solid rgba(255,255,255,0.07); margin-bottom: 20px; }
+    .dlg-sec { font-family: 'Bebas Neue', sans-serif; font-size: 11px; color: var(--red); letter-spacing: 3px; margin-bottom: 8px; }
+    .dlg-text { font-size: 14px; color: var(--white-65); line-height: 1.7; margin-bottom: 20px; }
+    .dlg-info { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.07); padding: 18px; margin-bottom: 20px; display: flex; flex-direction: column; gap: 12px; }
+    .dlg-info-row { display: flex; gap: 10px; align-items: flex-start; }
+    .dlg-info-lbl { font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--white-65); margin-bottom: 2px; }
+    .dlg-info-val { font-size: 14px; color: white; font-weight: 300; }
+    .dlg-price { font-size: 24px; font-weight: 700; color: var(--red); font-family: 'Playfair Display', serif; }
+    .dlg-list { list-style: none; margin-bottom: 18px; }
+    .dlg-list li { position: relative; padding: 5px 0 5px 14px; font-size: 13px; color: var(--white-65); border-bottom: 1px solid rgba(255,255,255,0.05); }
+    .dlg-list li::before { content: '→'; position: absolute; left: 0; color: var(--red); top: 6px; font-size: 10px; }
+    .dlg-btns { display: flex; gap: 10px; margin-top: 8px; }
+    .dlg-select-btn { flex: 1; background: var(--red); color: white; padding: 13px; border: none; font-family: 'Bebas Neue', sans-serif; font-size: 14px; letter-spacing: 2px; cursor: pointer; }
+    .dlg-select-btn.deselect { background: transparent; border: 1px solid var(--white-15); }
+
+
+    /* PAGO MP */
+    .pay-section-box { background: var(--dark); border: 1px solid var(--white-07); padding: 28px 32px; }
+    .btn-mp-pay { display: flex; align-items: center; justify-content: space-between; background: #009ee3; color: white; padding: 16px 24px; margin-bottom: 12px; font-family: 'DM Sans', sans-serif; font-size: 14px; font-weight: 400; text-decoration: none; transition: background 0.2s; gap: 12px; }
+    .btn-mp-pay:hover { background: #0082c0; }
+    .btn-mp-pay .curso-info { display: flex; flex-direction: column; gap: 2px; }
+    .btn-mp-pay .curso-nombre { font-weight: 700; font-size: 14px; }
+    .btn-mp-pay .curso-precio { font-size: 12px; opacity: 0.85; }
+    .btn-mp-pay .mp-arrow { font-size: 18px; flex-shrink: 0; }
+    .btn-wp-pay { display: inline-flex; align-items: center; gap: 10px; background: #25D366; color: white; padding: 14px 24px; font-family: 'DM Sans', sans-serif; font-size: 14px; font-weight: 400; text-decoration: none; transition: background 0.2s; }
+    .btn-wp-pay:hover { background: #1fad55; }
+    .disclaimer-box { background: rgba(232,0,29,0.05); border: 1px solid rgba(232,0,29,0.2); padding: 20px 24px; display: flex; gap: 14px; align-items: flex-start; }
+    .disclaimer-icon { font-size: 20px; flex-shrink: 0; }
+    .disclaimer-title { font-size: 13px; font-weight: 700; color: var(--white); margin-bottom: 6px; letter-spacing: 0.5px; }
+    .disclaimer-text { font-size: 13px; color: var(--white-65); line-height: 1.65; font-weight: 300; }
+
+    /* RESPONSIVE */
+    @media (max-width: 700px) {
+      .flow-header { padding: 16px 20px; }
+      .progress-bar { padding: 0 16px; }
+      .progress-step span:not(.step-num) { display: none; }
+      .flow-main { padding: 36px 16px 60px; }
+      .course-grid { grid-template-columns: 1fr; }
+      .form-row { grid-template-columns: 1fr; }
+      .payment-layout { grid-template-columns: 1fr; }
+      .payment-sidebar { order: -1; }
+      .confirm-info-grid { grid-template-columns: 1fr; gap: 16px; }
+      .confirm-order-row { flex-direction: column; }
+      .form-box, .payment-form, .payment-sidebar, .confirm-box, .next-steps-box { padding: 20px; }
+      .btn-back, .btn-next, .btn-outline { width: 100%; text-align: center; justify-content: center; }
+      .btn-row { flex-direction: column-reverse; }
+      .dlg-box { margin: 20px 16px; padding: 24px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="flow-header">
+  <a href="index.html" class="header-logo">
+    <img src="https://www.figma.com/api/mcp/asset/fc4f00d6-c5de-4fc8-8b6f-02089d813045" alt="FIMx" />
+  </a>
+  <div class="header-label">
+    <div class="header-label-line"></div>
+    <span class="header-label-text" id="header-label">Proceso de inscripción</span>
+  </div>
+</header>
+
+<!-- PROGRESS BAR -->
+<div class="progress-bar">
+  <div class="progress-step active" id="prog-1"><span class="step-num">1</span><span>Selecciona cursos</span></div>
+  <div class="step-div"></div>
+  <div class="progress-step" id="prog-2"><span class="step-num">2</span><span>Tu información</span></div>
+  <div class="step-div"></div>
+  <div class="progress-step" id="prog-3"><span class="step-num">3</span><span>Finalizar pago</span></div>
+</div>
+
+<main class="flow-main">
+
+  <!-- ══ PASO 1: SELECCIÓN MÚLTIPLE ══ -->
+  <div class="step-panel active" id="step-1">
+    <div class="step-label"><div class="step-label-line"></div><span class="step-label-text">Paso 1 de 3</span></div>
+    <div class="step-heading">
+      <div class="h1">Selecciona</div>
+      <div class="h1-red">tus cursos</div>
+    </div>
+    <p class="step-sub">Puedes elegir uno o varios programas. Cada curso tendrá su propio proceso de pago y comprobante.</p>
+
+    <!-- Cursos se renderizan aquí desde JSON -->
+    <div class="loading-screen" id="courses-loading">
+      <div class="loading-spinner"></div>
+      <span class="loading-text">Cargando cursos...</span>
+    </div>
+    <div class="course-grid" id="course-grid" style="display:none;"></div>
+
+    <!-- Resumen de selección -->
+    <div class="selection-summary" id="selection-summary">
+      <div>
+        <div class="summary-label">Cursos seleccionados</div>
+        <div class="summary-courses" id="summary-names">—</div>
+      </div>
+      <div class="summary-count" id="summary-count">0 CURSOS</div>
+    </div>
+
+    <div class="btn-row" style="justify-content:flex-end;">
+      <button class="btn-next" onclick="goToStep(2)">Continuar</button>
+    </div>
+  </div>
+
+  <!-- ══ PASO 2: INFORMACIÓN PERSONAL ══ -->
+  <div class="step-panel" id="step-2">
+    <div class="step-label"><div class="step-label-line"></div><span class="step-label-text">Paso 2 de 3</span></div>
+    <div class="step-heading">
+      <div class="h1">Tu</div>
+      <div class="h1-red">información</div>
+    </div>
+    <p class="step-sub">Completa tus datos para continuar con la inscripción.</p>
+
+    <div class="form-box">
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Nombre *</label>
+          <input class="form-input" type="text" id="f-nombre" placeholder="Tu nombre" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Apellido *</label>
+          <input class="form-input" type="text" id="f-apellido" placeholder="Tu apellido" />
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Email *</label>
+          <input class="form-input" type="email" id="f-email" placeholder="tu@correo.com" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Teléfono *</label>
+          <input class="form-input" type="tel" id="f-telefono" placeholder="+52 81 0000 0000" />
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Edad *</label>
+          <input class="form-input" type="number" id="f-edad" placeholder="Edad" min="15" max="80" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Ciudad *</label>
+          <input class="form-input" type="text" id="f-ciudad" placeholder="Tu ciudad" />
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Experiencia previa en moda *</label>
+        <select class="form-select form-input" id="f-experiencia">
+          <option value="" disabled selected>Selecciona una opción</option>
+          <option value="ninguna">Sin experiencia previa</option>
+          <option value="basica">Básica (menos de 1 año)</option>
+          <option value="intermedia">Intermedia (1–3 años)</option>
+          <option value="avanzada">Avanzada (más de 3 años)</option>
+          <option value="profesional">Profesional de la industria</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">¿Por qué quieres tomar este(os) curso(s)? *</label>
+        <textarea class="form-input form-textarea" id="f-motivo" placeholder="Cuéntanos tus objetivos y motivaciones..."></textarea>
+      </div>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn-back" onclick="goToStep(1)">Regresar</button>
+      <button class="btn-next" onclick="goToStep(3)">Continuar</button>
+    </div>
+  </div>
+
+  <!-- ══ PASO 3: PAGO CON MERCADO PAGO ══ -->
+  <div class="step-panel" id="step-3">
+    <div class="step-label"><div class="step-label-line"></div><span class="step-label-text">Paso 3 de 3</span></div>
+    <div class="step-heading">
+      <div class="h1">Finaliza tu</div>
+      <div class="h1-red">inscripción</div>
+    </div>
+    <p class="step-sub">Elige cómo deseas realizar tu pago. Una vez completado, envíanos tu comprobante.</p>
+
+    <!-- Resumen de cursos -->
+    <div class="payment-layout">
+      <div style="display:flex;flex-direction:column;gap:20px;">
+
+        <!-- Botones de pago por curso -->
+        <div class="pay-section-box">
+          <div class="pay-section-title">Pago por Mercado Pago</div>
+          <p style="font-size:13px;color:var(--white-65);margin-bottom:20px;line-height:1.6;">Haz clic en el botón de cada curso para ir a Mercado Pago y completar tu pago de forma segura.</p>
+          <div id="mp-buttons-list"></div>
+        </div>
+
+        <!-- O separador -->
+        <div style="display:flex;align-items:center;gap:16px;">
+          <div style="flex:1;height:1px;background:var(--white-07)"></div>
+          <span style="font-size:12px;color:rgba(245,245,240,0.35);letter-spacing:2px;">O</span>
+          <div style="flex:1;height:1px;background:var(--white-07)"></div>
+        </div>
+
+        <!-- WhatsApp -->
+        <div class="pay-section-box">
+          <div class="pay-section-title">Pago por WhatsApp</div>
+          <p style="font-size:13px;color:var(--white-65);margin-bottom:20px;line-height:1.6;">También puedes contactarnos directamente por WhatsApp para coordinar tu pago y resolver cualquier duda.</p>
+          <a id="wp-pay-btn" href="#" target="_blank" class="btn-wp-pay">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+            Contactar por WhatsApp
+          </a>
+        </div>
+
+        <!-- Disclaimer -->
+        <div class="disclaimer-box">
+          <div class="disclaimer-icon">⚠️</div>
+          <div>
+            <div class="disclaimer-title">Importante — Confirma tu inscripción</div>
+            <div class="disclaimer-text" id="disclaimer-text">Una vez realizado tu pago, envía tu comprobante por WhatsApp para confirmar tu lugar.</div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Sidebar resumen -->
+      <div class="payment-sidebar">
+        <div class="pay-section-title">Resumen</div>
+        <div class="sidebar-lbl" style="margin-bottom:10px;">Estudiante</div>
+        <div style="font-size:13px;color:var(--white);margin-bottom:16px;" id="s-nombre">—</div>
+        <hr class="sidebar-divider" />
+        <div class="sidebar-lbl" style="margin-bottom:8px;">Cursos seleccionados</div>
+        <div class="sidebar-courses-list" id="s-courses-list"></div>
+        <hr class="sidebar-divider" />
+        <div class="sidebar-row">
+          <span class="sidebar-lbl">Subtotal</span>
+          <span class="sidebar-val" id="s-subtotal">—</span>
+        </div>
+        <hr class="sidebar-divider" />
+        <div class="sidebar-row" style="align-items:flex-end;">
+          <span class="sidebar-total-lbl">Total</span>
+          <span class="sidebar-total-val" id="s-total">—</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn-back" onclick="goToStep(2)">Regresar</button>
+      <a href="index.html" class="btn-outline" style="text-decoration:none;display:inline-flex;align-items:center;">Volver al inicio</a>
+    </div>
+  </div>
+
+    <!-- PASO 4 removido - el flujo termina en paso 3 con MP -->
+  <div class="step-panel" id="step-4" style="display:none!important;">
+    <div class="confirm-center">
+      <div class="check-icon"><div class="check-inner">✓</div></div>
+      <div class="step-heading">
+        <div class="h1" style="text-align:center;">¡Pago</div>
+        <div class="h1-red" style="text-align:center;">exitoso!</div>
+      </div>
+      <p class="step-sub" style="text-align:center;margin-top:10px;">Tu inscripción ha sido confirmada. Revisa tu correo para los comprobantes de cada curso.</p>
+    </div>
+
+    <div class="confirm-box">
+      <div class="confirm-order-row">
+        <div>
+          <div class="confirm-lbl">Número de orden</div>
+          <div class="confirm-order-val" id="c-orden">—</div>
+        </div>
+        <div style="text-align:right;">
+          <div class="confirm-lbl">Fecha de inscripción</div>
+          <div class="confirm-date" id="c-fecha">—</div>
+        </div>
+      </div>
+
+      <div class="confirm-info-grid">
+        <div>
+          <div class="confirm-section-title">Información del estudiante</div>
+          <div class="confirm-item"><div class="confirm-item-lbl">Nombre completo</div><div class="confirm-item-val" id="c-nombre">—</div></div>
+          <div class="confirm-item"><div class="confirm-item-lbl">Email</div><div class="confirm-item-val" id="c-email">—</div></div>
+          <div class="confirm-item"><div class="confirm-item-lbl">Teléfono</div><div class="confirm-item-val" id="c-tel">—</div></div>
+        </div>
+        <div>
+          <div class="confirm-section-title">Cursos inscritos</div>
+          <div class="confirm-courses-list" id="c-courses-list"></div>
+        </div>
+      </div>
+
+      <div class="confirm-total-row">
+        <span class="confirm-total-lbl">Total pagado</span>
+        <span class="confirm-total-val" id="c-total">—</span>
+      </div>
+    </div>
+
+    <div class="next-steps-box">
+      <div class="next-steps-title">Próximos pasos</div>
+      <div class="next-step">
+        <div class="next-step-num">1</div>
+        <div><div class="next-step-title">Revisa tu correo electrónico</div><div class="next-step-desc">Recibirás un comprobante por cada curso inscrito con todos los detalles de tu inscripción.</div></div>
+      </div>
+      <div class="next-step">
+        <div class="next-step-num">2</div>
+        <div><div class="next-step-title">Únete a nuestra comunidad</div><div class="next-step-desc">Recibirás una invitación a nuestro grupo exclusivo de estudiantes donde podrás conectar con otros creativos.</div></div>
+      </div>
+      <div class="next-step">
+        <div class="next-step-num">3</div>
+        <div><div class="next-step-title">Prepárate para comenzar</div><div class="next-step-desc">Te contactaremos con la fecha de inicio y los materiales necesarios para cada curso.</div></div>
+      </div>
+    </div>
+
+    <div class="btn-row center" style="gap:14px;">
+      <button class="btn-outline" onclick="window.print()">Descargar comprobante</button>
+      <a href="index.html" class="btn-next" style="text-decoration:none;">Volver al inicio</a>
+    </div>
+  </div>
+
+</main>
+
+<!-- DIALOG INFO CURSO -->
+<div class="dlg-overlay" id="courseDlg" onclick="if(event.target===this)closeDlg()">
+  <div class="dlg-box">
+    <button class="dlg-close" onclick="closeDlg()">✕</button>
+    <div class="dlg-tag"><div class="dlg-tag-line"></div><span class="dlg-tag-text">Cursos</span></div>
+    <div class="dlg-title" id="di-title"></div>
+    <div class="dlg-dur" id="di-dur"></div>
+    <p class="dlg-sec">DESCRIPCIÓN</p>
+    <p class="dlg-text" id="di-desc"></p>
+    <div class="dlg-info">
+      <div class="dlg-info-row"><span style="color:var(--red)">👤</span><div><div class="dlg-info-lbl">Instructor</div><div class="dlg-info-val" id="di-inst"></div></div></div>
+      <div class="dlg-info-row"><span style="color:var(--red)">📅</span><div><div class="dlg-info-lbl">Horario</div><div class="dlg-info-val" id="di-hora"></div></div></div>
+      <div class="dlg-info-row"><span style="color:var(--red);font-weight:700">$</span><div><div class="dlg-info-lbl">Inversión</div><div class="dlg-price" id="di-precio"></div></div></div>
+    </div>
+    <p class="dlg-sec">INCLUYE</p>
+    <ul class="dlg-list" id="di-inc"></ul>
+    <div class="dlg-btns">
+      <button class="dlg-select-btn" id="di-btn" onclick="toggleFromDlg()">Seleccionar este curso</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  // ── CONFIGURACIÓN ──
+  const WA_NUMBER = '528115397380';
+  const MP_LINK_DEFAULT = 'https://mpago.la/2huCFP8';
+
+  // ── ESTADO ──
+  let allCourses = [];
+  let selectedIds = new Set();
+  let currentDlgIdx = null;
+  let siteConfig = null;
+
+  // ── CARGAR CONFIGURACIÓN DEL SITIO ──
+  async function loadSiteConfig() {
+    try {
+      const res = await fetch('data/site/general.json');
+      siteConfig = await res.json();
+    } catch(e) {
+      siteConfig = {
+        pagos: {
+          mercadopago_link: MP_LINK_DEFAULT,
+          whatsapp_pago: WA_NUMBER,
+          disclaimer_pago: 'Una vez realizado tu pago, envía tu comprobante por WhatsApp para confirmar tu lugar.'
+        },
+        contacto: { whatsapp: WA_NUMBER }
+      };
+    }
+  }
+
+  // ── CARGAR CURSOS DESDE JSON ──
+  const COURSE_FILES = ['costura', 'diseno-moda', 'patronaje', 'fotografia'];
+
+  async function loadCourses() {
+    try {
+      // Intentar leer índice dinámico primero
+      let files = COURSE_FILES;
+      try {
+        const idxRes = await fetch('data/cursos-index.json');
+        if (idxRes.ok) files = await idxRes.json();
+      } catch(e) {}
+
+      const results = await Promise.allSettled(
+        files.map(f => fetch('data/cursos/' + f + '.json').then(r => { if(!r.ok) throw new Error(f); return r.json(); }))
+      );
+      allCourses = results
+        .filter(r => r.status === 'fulfilled')
+        .map(r => r.value)
+        .filter(c => c.activo);
+      if (allCourses.length === 0) throw new Error('Sin cursos');
+      renderCourseGrid();
+    } catch (e) {
+      allCourses = [
+        { id: 'costura', nombre: 'Costura de High Fashion', precio: 6550, duracion: '8 semanas', nivel: 'Intermedio', instructor: 'Ana Martínez', horario: 'Lunes y Miércoles · 18:00 – 21:00', descripcion: 'Domina las técnicas fundamentales de costura profesional.', incluye: ['Materiales de costura', 'Acceso a taller equipado', 'Mentoría personalizada', 'Certificado de finalización'], activo: true },
+        { id: 'diseno-moda', nombre: 'Diseño de Moda Avanzado', precio: 8500, duracion: '12 semanas', nivel: 'Avanzado', instructor: 'Ana Martínez', horario: 'Lunes y Miércoles · 18:00 – 21:00', descripcion: 'Desarrolla tu visión creativa y aprende técnicas profesionales de diseño de modas.', incluye: ['Materiales de diseño', 'Software de diseño digital', 'Mentoría personalizada', 'Certificado de finalización'], activo: true },
+        { id: 'patronaje', nombre: 'Patronaje y Confección', precio: 7200, duracion: '10 semanas', nivel: 'Intermedio', instructor: 'Carlos Ruiz', horario: 'Martes y Jueves · 10:00 – 13:00', descripcion: 'Domina el arte del patronaje industrial y confección de prendas de alta calidad.', incluye: ['Materiales de patronaje', 'Telas para práctica', 'Mentoría especializada', 'Certificado de finalización'], activo: true },
+        { id: 'fotografia', nombre: 'Fotografía de Moda', precio: 5800, duracion: '6 semanas', nivel: 'Intermedio', instructor: 'Laura Gómez', horario: 'Sábados · 10:00 – 14:00', descripcion: 'Captura la esencia de las prendas con técnicas de fotografía profesional.', incluye: ['Acceso a estudio fotográfico', 'Equipo de iluminación', 'Edición en Lightroom', 'Certificado de finalización'], activo: true }
+      ];
+      renderCourseGrid();
+    }
+  }
+
+  function renderCourseGrid() {
+    const grid = document.getElementById('course-grid');
+    const loading = document.getElementById('courses-loading');
+    loading.style.display = 'none';
+    grid.style.display = 'grid';
+    grid.innerHTML = allCourses.map((c, i) => `
+      <div class="course-card" id="card-${i}" onclick="toggleCourse(${i})">
+        <div class="course-checkbox" id="check-${i}"></div>
+        <div class="course-num">${String(i+1).padStart(2,'0')}</div>
+        <div class="course-name">${c.nombre}</div>
+        <div class="course-desc">${c.descripcion}</div>
+        <div class="course-tags">
+          <span class="course-tag">${c.duracion}</span>
+          <span class="course-tag">${c.nivel}</span>
+        </div>
+        <div class="course-price">
+          <span class="amount">$${c.precio.toLocaleString()}</span>
+          <span class="currency"> MXN</span>
+        </div>
+        <span class="course-more" onclick="event.stopPropagation(); openDlg(${i})">Más información →</span>
+      </div>
+    `).join('');
+  }
+
+  // ── SELECCIÓN ──
+  function toggleCourse(idx) {
+    const id = allCourses[idx].id;
+    if (selectedIds.has(id)) {
+      selectedIds.delete(id);
+      document.getElementById('card-' + idx).classList.remove('selected');
+      document.getElementById('check-' + idx).textContent = '';
+    } else {
+      selectedIds.add(id);
+      document.getElementById('card-' + idx).classList.add('selected');
+      document.getElementById('check-' + idx).textContent = '✓';
+    }
+    updateSummary();
+  }
+
+  function updateSummary() {
+    const selected = allCourses.filter(c => selectedIds.has(c.id));
+    const summary = document.getElementById('selection-summary');
+    if (selected.length === 0) {
+      summary.classList.remove('visible');
+    } else {
+      summary.classList.add('visible');
+      document.getElementById('summary-names').textContent = selected.map(c => c.nombre).join(', ');
+      document.getElementById('summary-count').textContent = selected.length + (selected.length === 1 ? ' CURSO' : ' CURSOS');
+    }
+  }
+
+  // ── DIALOG ──
+  function openDlg(idx) {
+    const c = allCourses[idx];
+    currentDlgIdx = idx;
+    document.getElementById('di-title').textContent = c.nombre;
+    document.getElementById('di-dur').textContent = '⏱ ' + c.duracion + ' · ' + c.nivel;
+    document.getElementById('di-desc').textContent = c.descripcion;
+    document.getElementById('di-inst').textContent = c.instructor;
+    document.getElementById('di-hora').textContent = c.horario;
+    document.getElementById('di-precio').textContent = '$' + c.precio.toLocaleString() + ' MXN';
+    const inc = Array.isArray(c.incluye) ? c.incluye : [];
+    document.getElementById('di-inc').innerHTML = inc.map(i => `<li>${typeof i === 'object' ? (i.item || Object.values(i)[0]) : i}</li>`).join('');
+    const btn = document.getElementById('di-btn');
+    const isSelected = selectedIds.has(c.id);
+    btn.textContent = isSelected ? 'Quitar selección' : 'Seleccionar este curso';
+    btn.className = 'dlg-select-btn' + (isSelected ? ' deselect' : '');
+    document.getElementById('courseDlg').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function toggleFromDlg() {
+    toggleCourse(currentDlgIdx);
+    const c = allCourses[currentDlgIdx];
+    const isSelected = selectedIds.has(c.id);
+    const btn = document.getElementById('di-btn');
+    btn.textContent = isSelected ? 'Quitar selección' : 'Seleccionar este curso';
+    btn.className = 'dlg-select-btn' + (isSelected ? ' deselect' : '');
+    if (isSelected) closeDlg();
+  }
+
+  function closeDlg() {
+    document.getElementById('courseDlg').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  // ── NAVEGACIÓN ──
+  function goToStep(n) {
+    if (n > 1 && selectedIds.size === 0) {
+      alert('Por favor selecciona al menos un curso para continuar.');
+      return;
+    }
+    if (n > 2) {
+      const required = ['f-nombre','f-apellido','f-email','f-telefono','f-edad','f-ciudad','f-experiencia'];
+      for (const id of required) {
+        const el = document.getElementById(id);
+        if (!el.value.trim()) {
+          el.focus();
+          el.style.borderColor = 'var(--red)';
+          alert('Por favor completa todos los campos requeridos.');
+          return;
+        }
+      }
+      // Guardar inscripción y preparar paso 3
+      guardarInscripcion();
+      prepararPagos();
+    }
+    document.querySelectorAll('.step-panel').forEach(p => p.classList.remove('active'));
+    document.getElementById('step-' + n).classList.add('active');
+    for (let i = 1; i <= 3; i++) {
+      const el = document.getElementById('prog-' + i);
+      if (!el) continue;
+      el.classList.remove('active','done');
+      if (i < n) el.classList.add('done');
+      else if (i === n) el.classList.add('active');
+    }
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  // ── PREPARAR PASO 3 (MP + WA) ──
+  function prepararPagos() {
+    const selected = allCourses.filter(c => selectedIds.has(c.id));
+    const nombre = document.getElementById('f-nombre').value + ' ' + document.getElementById('f-apellido').value;
+    const subtotal = selected.reduce((s, c) => s + c.precio, 0);
+
+    // Sidebar
+    document.getElementById('s-nombre').textContent = nombre;
+    document.getElementById('s-courses-list').innerHTML = selected.map(c =>
+      `<div class="sidebar-course-item"><span class="sidebar-course-name">${c.nombre}</span><span class="sidebar-course-price">$${c.precio.toLocaleString()}</span></div>`
+    ).join('');
+    document.getElementById('s-subtotal').textContent = '$' + subtotal.toLocaleString() + ' MXN';
+    document.getElementById('s-total').textContent = '$' + subtotal.toLocaleString() + ' MXN';
+
+    // Botones de MP — uno por curso
+    const mpLink = siteConfig?.pagos?.mercadopago_link || MP_LINK_DEFAULT;
+    const mpList = document.getElementById('mp-buttons-list');
+    mpList.innerHTML = selected.map(c => `
+      <a href="${mpLink}" target="_blank" class="btn-mp-pay">
+        <div class="curso-info">
+          <span class="curso-nombre">${c.nombre}</span>
+          <span class="curso-precio">$${c.precio.toLocaleString()} MXN</span>
+        </div>
+        <span class="mp-arrow">Pagar →</span>
+      </a>
+    `).join('');
+
+    // Botón de WhatsApp con mensaje prellenado
+    const waNum = siteConfig?.pagos?.whatsapp_pago || WA_NUMBER;
+    const cursosTexto = selected.map(c => `• ${c.nombre} ($${c.precio.toLocaleString()} MXN)`).join('%0A');
+    const waMsg = `Hola, me interesa inscribirme a los siguientes cursos:%0A${cursosTexto}%0A%0ANombre: ${encodeURIComponent(nombre)}%0ATotal: $${subtotal.toLocaleString()} MXN`;
+    document.getElementById('wp-pay-btn').href = `https://wa.me/${waNum}?text=${waMsg}`;
+
+    // Disclaimer
+    const disclaimer = siteConfig?.pagos?.disclaimer_pago || '';
+    if (disclaimer) document.getElementById('disclaimer-text').textContent = disclaimer;
+  }
+
+  // ── GUARDAR INSCRIPCIÓN ──
+  async function guardarInscripcion() {
+    const selected = allCourses.filter(c => selectedIds.has(c.id));
+    const subtotal = selected.reduce((s, c) => s + c.precio, 0);
+
+    const datos = {
+      nombre: document.getElementById('f-nombre').value,
+      apellido: document.getElementById('f-apellido').value,
+      email: document.getElementById('f-email').value,
+      telefono: document.getElementById('f-telefono').value,
+      edad: document.getElementById('f-edad').value,
+      ciudad: document.getElementById('f-ciudad').value,
+      experiencia: document.getElementById('f-experiencia').value,
+      motivo: document.getElementById('f-motivo').value,
+      cursos: selected.map(c => ({ id: c.id, nombre: c.nombre, precio: c.precio })),
+      total: subtotal
+    };
+
+    try {
+      await fetch('/.netlify/functions/guardar-inscripcion', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(datos)
+      });
+    } catch(e) {
+      // Silencioso — no bloquear el flujo si falla
+      console.log('Inscripción no guardada en servidor:', e);
+    }
+  }
+
+  // Reset border en inputs
+  document.querySelectorAll('.form-input').forEach(el => {
+    el.addEventListener('input', () => el.style.borderColor = '');
+  });
+
+  // Iniciar
+  Promise.all([loadSiteConfig(), loadCourses()]);
+</script>
+</body>
+</html>

@@ -1,0 +1,661 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Fashion Incubator México</title>
+  <link rel="icon" type="image/png" href="https://i.postimg.cc/ryQNc0v0/fi-favicon.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;1,300&family=Playfair+Display:ital,wght@0,700;1,400;1,700&display=swap" rel="stylesheet" />
+ <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --red: #E8001D;
+      --white: #F5F5F0;
+      --black: #0A0A0A;
+      --grey-7: #111111;
+      --grey-10: #1A1A1A;
+      --white-8: rgba(255,255,255,0.08);
+      --white-65: rgba(245,245,240,0.65);
+      --white-7: rgba(255,255,255,0.07);
+    }
+    html { scroll-behavior: smooth; }
+    body { background: var(--black); color: var(--white); font-family: 'DM Sans', sans-serif; overflow-x: hidden; }
+
+    /* NAVBAR */
+    .navbar { position: fixed; top: 0; left: 0; right: 0; z-index: 100; display: flex; align-items: center; justify-content: space-between; padding: 18px 48px; background: rgba(10,10,10,0.92); backdrop-filter: blur(4px); border-bottom: 1px solid rgba(255,255,255,0.06); }
+    .nav-logo img { width: 64px; display: block; }
+    .nav-links { display: flex; gap: 36px; list-style: none; align-items: center; }
+    .nav-links a { font-weight: 300; font-size: 12px; letter-spacing: 1.5px; text-transform: uppercase; color: rgba(245,245,240,0.65); text-decoration: none; transition: color 0.2s; }
+    .nav-links a:hover { color: var(--white); }
+    .nav-cta { background: var(--red) !important; color: var(--white) !important; padding: 10px 22px; }
+
+    /* HERO */
+    .hero { position: relative; min-height: 100vh; overflow: hidden; }
+    .slide { display: none; position: relative; min-height: 100vh; padding: 160px 48px 100px; flex-direction: column; justify-content: flex-end; }
+    .slide.active { display: flex; }
+    .slide-bg { position: absolute; inset: 0; background-size: cover; background-position: center; opacity: 0.22; }
+    .slide-gradient { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(86,0,0,0.26) 5%, rgba(45,0,0,0.65) 50%, rgba(0,0,0,0.92) 91%); }
+    .slide-divider { position: absolute; bottom: 0; left: 0; right: 0; height: 1px; background: var(--white-8); }
+    .slide-content { position: relative; z-index: 2; }
+    .slide-title-red { font-family: 'Bebas Neue', sans-serif; font-size: clamp(80px, 10vw, 160px); color: var(--red); line-height: 0.92; letter-spacing: -2px; }
+    .slide-title-white { font-family: 'Bebas Neue', sans-serif; font-size: clamp(80px, 10vw, 160px); color: var(--white); line-height: 0.92; letter-spacing: -2px; margin-bottom: 24px; }
+    .slide-subtitle { font-weight: 300; font-size: 18px; color: var(--white-65); line-height: 1.5; max-width: 440px; margin-bottom: 36px; }
+    .slide-buttons { display: flex; gap: 16px; flex-wrap: wrap; }
+    .btn-primary { background: var(--red); color: var(--white); padding: 14px 28px; font-size: 11px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; border: none; cursor: pointer; }
+    .btn-secondary { background: transparent; color: var(--white); padding: 13px 28px; font-size: 11px; font-weight: 300; letter-spacing: 1.5px; text-transform: uppercase; border: 1px solid rgba(245,245,240,0.35); cursor: pointer; }
+    .dots { position: absolute; bottom: 28px; left: 50%; transform: translateX(-50%); display: flex; gap: 8px; z-index: 10; }
+    .dot { width: 8px; height: 8px; border-radius: 50%; background: rgba(245,245,240,0.3); cursor: pointer; transition: background 0.3s; }
+    .dot.active { background: var(--red); }
+
+    /* UTILS */
+    .section-label { display: flex; align-items: center; gap: 12px; margin-bottom: 20px; }
+    .section-label-line { background: var(--red); height: 1px; width: 30px; flex-shrink: 0; }
+    .section-label-text { font-family: 'Bebas Neue', sans-serif; font-size: 11px; color: var(--red); letter-spacing: 4px; text-transform: uppercase; }
+    .heading-2 { font-family: 'Playfair Display', serif; font-size: clamp(40px, 5vw, 64px); font-weight: 700; line-height: 1.1; color: var(--white); }
+    .heading-2 em { font-style: italic; color: var(--red); }
+
+    /* QUÉ ES FIMX */
+    .section-que-es { background: var(--grey-7); display: grid; grid-template-columns: 1fr 1fr; gap: 80px; padding: 100px 48px; }
+    .que-es-right { border-left: 1px solid var(--white-8); padding-left: 80px; display: flex; flex-direction: column; gap: 28px; justify-content: center; }
+    .text-highlight { font-weight: 400; font-size: 24px; line-height: 1.4; color: var(--white-65); }
+    .text-highlight strong { color: var(--white); font-weight: 400; }
+
+    /* TODO LO QUE NECESITAS */
+    .section-todo { background: var(--black); padding: 100px 48px; display: flex; flex-direction: column; gap: 60px; }
+    .todo-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; border: 1px solid rgba(255,255,255,0.07); }
+    .todo-item { background: var(--black); border-right: 1px solid rgba(255,255,255,0.07); padding: 48px 36px; display: flex; flex-direction: column; gap: 11px; }
+    .todo-item:last-child { border-right: none; }
+    .todo-num { font-family: 'Bebas Neue', sans-serif; font-size: 56px; color: rgba(232,0,29,0.25); line-height: 1; }
+    .todo-title { font-family: 'Playfair Display', serif; font-weight: 700; font-size: 22px; color: var(--white); }
+    .todo-desc { font-weight: 300; font-size: 14px; color: rgba(245,245,240,0.55); line-height: 1.65; }
+
+    /* CÓMO FUNCIONA */
+    .section-como { background: var(--grey-10); padding: 100px 48px; display: flex; flex-direction: column; gap: 80px; align-items: center; }
+    .timeline { position: relative; display: flex; flex-direction: column; gap: 100px; width: 100%; max-width: 1216px; }
+    .timeline::before { content: ''; position: absolute; left: 50%; top: 0; bottom: 0; width: 2px; background: rgba(255,255,255,0.08); transform: translateX(-50%); }
+    .timeline-item { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: center; position: relative; }
+    .timeline-text { padding-right: 48px; text-align: right; }
+    .timeline-text.left { padding-right: 0; padding-left: 48px; text-align: left; }
+    .timeline-title { font-size: 30px; font-weight: 700; color: white; margin-bottom: 16px; line-height: 1.2; }
+    .timeline-desc { font-size: 16px; color: #666; line-height: 1.625; margin-bottom: 16px; }
+    .timeline-tags { display: flex; gap: 8px; flex-wrap: wrap; }
+    .timeline-text .timeline-tags { justify-content: flex-end; }
+    .timeline-text.left .timeline-tags { justify-content: flex-start; }
+    .ttag { background: rgba(255,0,0,0.1); color: red; font-size: 12px; font-weight: 700; text-transform: uppercase; padding: 4px 12px; border-radius: 9999px; }
+    .timeline-img { width: 100%; height: 256px; border-radius: 16px; object-fit: cover; display: block; }
+    .timeline-num { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); width: 48px; height: 48px; border-radius: 50%; background: red; border: 4px solid #f8f8f8; display: flex; align-items: center; justify-content: center; font-size: 20px; font-weight: 700; color: white; z-index: 2; }
+
+    /* NO SOMOS ESCUELA TRADICIONAL */
+    .section-sobre { background: var(--black); display: grid; grid-template-columns: 1fr 1fr; gap: 80px; padding: 100px 48px; }
+    .sobre-cards { display: flex; flex-direction: column; gap: 32px; }
+    .sobre-card { border: 1px solid var(--white-7); padding: 33px; }
+    .sobre-card-title { font-family: 'Bebas Neue', sans-serif; font-size: 13px; color: var(--red); letter-spacing: 2px; margin-bottom: 16px; }
+    .sobre-list { list-style: none; }
+    .sobre-list li { padding: 6px 0 6px 16px; position: relative; font-weight: 300; font-size: 14px; color: var(--white-65); line-height: 1.5; }
+    .sobre-list li::before { content: '—'; position: absolute; left: 0; color: var(--red); font-size: 12px; top: 8px; }
+
+    /* PROGRAMAS & FORMATOS */
+    .section-formatos { background: var(--grey-7); padding: 100px 48px; display: flex; flex-direction: column; gap: 64px; }
+    .formatos-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2px; }
+    .prog-card { background: #111; padding: 36px 28px; display: flex; flex-direction: column; position: relative; overflow: hidden; }
+    .prog-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: var(--red); transform: scaleX(0); transform-origin: left; transition: transform 0.4s; }
+    .prog-card:hover::before { transform: scaleX(1); }
+    .prog-badge { display: inline-block; border: 1px solid rgba(232,0,29,0.4); color: var(--red); font-size: 10px; font-weight: 300; letter-spacing: 2px; text-transform: uppercase; padding: 5px 11px; margin-bottom: 16px; align-self: flex-start; }
+    .prog-title { font-family: 'Playfair Display', serif; font-weight: 700; font-size: 20px; color: var(--white); margin-bottom: 10px; }
+    .prog-desc { font-weight: 300; font-size: 13px; color: #888; line-height: 1.65; margin-bottom: 16px; }
+    .prog-list { list-style: none; margin-bottom: 16px; flex: 1; }
+    .prog-list li { position: relative; padding: 6px 0 6px 16px; font-weight: 300; font-size: 13px; color: rgba(245,245,240,0.6); border-bottom: 1px solid rgba(255,255,255,0.05); cursor: pointer; transition: color 0.2s; display: flex; align-items: center; gap: 6px; }
+    .prog-list li:hover { color: var(--white); }
+    .prog-list li::before { content: '—'; position: absolute; left: 0; color: var(--red); font-size: 11px; top: 8px; }
+    .prog-meta { font-size: 11px; color: rgba(245,245,240,0.45); letter-spacing: 0.5px; margin-top: 6px; }
+    .prog-meta strong { color: rgba(245,245,240,0.8); }
+    .prog-cta-btn { margin-top: 20px; background: var(--red); color: var(--white); padding: 11px 20px; font-size: 11px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; border: none; cursor: pointer; align-self: flex-start; }
+
+    /* PROGRAMAS ACTIVOS */
+    .section-programas-activos { background: white; padding: 80px 48px; }
+    .programas-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2px; margin-top: 40px; }
+    .programa-card { position: relative; overflow: hidden; cursor: pointer; }
+    .programa-card img { width: 100%; height: 320px; object-fit: cover; display: block; filter: grayscale(30%); transition: filter 0.4s, transform 0.4s; }
+    .programa-card:hover img { filter: grayscale(0%); transform: scale(1.04); }
+    .programa-card-info { position: absolute; bottom: 0; left: 0; right: 0; padding: 24px 20px; background: linear-gradient(0deg, rgba(0,0,0,0.88) 0%, transparent 100%); }
+    .programa-badge { display: inline-block; background: var(--red); color: white; font-size: 9px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; padding: 3px 8px; margin-bottom: 8px; }
+    .programa-name { font-family: 'Bebas Neue', sans-serif; font-size: 20px; color: white; letter-spacing: 1px; }
+
+    /* EXPERIENCIA FIMX */
+    .section-experiencia { background: var(--black); padding: 120px 48px; display: flex; flex-direction: column; align-items: center; gap: 20px; text-align: center; }
+    .experiencia-quote { font-family: 'Playfair Display', serif; font-style: italic; font-size: 32px; line-height: 1.5; color: rgba(245,245,240,0.55); max-width: 700px; padding-top: 28px; }
+    .experiencia-quote strong { color: var(--white); font-style: normal; }
+
+    /* ANTES Y DESPUÉS */
+    .section-antes { background: var(--grey-10); padding: 100px 48px; display: flex; flex-direction: column; align-items: center; gap: 56px; }
+    .antes-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: rgba(255,255,255,0.07); max-width: 900px; width: 100%; }
+    .antes-col { padding: 64px 56px; display: flex; flex-direction: column; gap: 28px; }
+    .antes-col.before { background: var(--grey-10); }
+    .antes-col.after { background: #0f0f0f; }
+    .antes-col-title { font-family: 'Bebas Neue', sans-serif; font-size: 14px; letter-spacing: 3px; text-transform: uppercase; }
+    .antes-col.before .antes-col-title { color: #888; }
+    .antes-col.after .antes-col-title { color: var(--red); }
+    .antes-list { list-style: none; }
+    .antes-list li { position: relative; padding: 10px 0 11px 20px; font-weight: 300; font-size: 15px; border-bottom: 1px solid rgba(255,255,255,0.06); }
+    .antes-list li::before { position: absolute; left: 0; top: 12px; font-size: 10px; }
+    .antes-col.before .antes-list li { color: rgba(245,245,240,0.5); }
+    .antes-col.before .antes-list li::before { content: '✕'; color: rgba(232,0,29,0.4); }
+    .antes-col.after .antes-list li { color: rgba(245,245,240,0.8); }
+    .antes-col.after .antes-list li::before { content: '✓'; color: var(--red); }
+
+    /* COMUNIDAD */
+    .section-comunidad { background: var(--black); padding: 100px 48px; display: flex; flex-direction: column; gap: 60px; }
+    .comunidad-tags { display: flex; flex-wrap: wrap; gap: 16px; }
+    .comunidad-tag { border: 1px solid rgba(255,255,255,0.12); padding: 13px 25px; font-family: 'Playfair Display', serif; font-style: italic; font-size: 18px; color: rgba(245,245,240,0.7); }
+    .comunidad-quote { border-left: 2px solid var(--red); padding-left: 30px; font-family: 'Playfair Display', serif; font-style: italic; font-size: 26px; color: rgba(245,245,240,0.45); line-height: 1.5; max-width: 600px; }
+
+    /* CTA FINAL */
+    .section-cta { background: var(--red); padding: 100px 48px; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 24px; }
+    .cta-title { font-family: 'Playfair Display', serif; font-size: clamp(40px, 5vw, 72px); font-weight: 700; color: white; line-height: 1.1; }
+    .cta-title em { font-style: italic; }
+    .btn-white { background: white; color: var(--red); padding: 16px 40px; font-size: 12px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; border: none; cursor: pointer; display: inline-block; text-decoration: none; }
+
+    /* FOOTER */
+    .footer { background: #070707; border-top: 1px solid rgba(255,255,255,0.06); padding: 65px 48px 32px; display: flex; flex-direction: column; gap: 60px; }
+    .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1.5fr; gap: 60px; }
+    .footer-logo img { width: 64px; margin-bottom: 16px; display: block; }
+    .footer-contact { font-weight: 300; font-size: 13px; color: #888; line-height: 1.7; }
+    .footer-contact a { color: #888; text-decoration: underline; }
+    .footer-col-title { font-family: 'Bebas Neue', sans-serif; font-size: 12px; color: var(--red); letter-spacing: 2px; margin-bottom: 20px; }
+    .footer-links { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+    .footer-links a { font-weight: 300; font-size: 13px; color: #888; text-decoration: none; }
+    .footer-links a:hover { color: var(--white); }
+    .footer-nl-desc { font-weight: 300; font-size: 13px; color: #888; line-height: 1.6; margin-bottom: 16px; }
+    .footer-nl-form { display: flex; }
+    .footer-nl-input { flex: 1; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-right: none; padding: 13px 17px; font-size: 13px; color: #888; font-family: 'DM Sans', sans-serif; outline: none; }
+    .footer-nl-btn { background: var(--red); color: var(--white); border: none; padding: 13px 20px; font-size: 12px; letter-spacing: 1px; text-transform: uppercase; cursor: pointer; }
+    .footer-bottom { border-top: 1px solid rgba(255,255,255,0.06); padding-top: 25px; display: flex; justify-content: space-between; }
+    .footer-copy { font-weight: 300; font-size: 12px; color: rgba(255,255,255,0.25); }
+    .footer-location { font-weight: 300; font-size: 12px; color: rgba(255,255,255,0.15); }
+
+    /* DIALOG */
+    .dialog-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.85); z-index: 200; overflow-y: auto; }
+    .dialog-overlay.open { display: block; }
+    .dialog-box { background: #111; max-width: 560px; margin: 60px auto; padding: 40px; position: relative; }
+    .dialog-close { position: absolute; top: 20px; right: 20px; background: none; border: 1px solid rgba(255,255,255,0.2); color: white; width: 36px; height: 36px; cursor: pointer; font-size: 16px; display: flex; align-items: center; justify-content: center; }
+    .dialog-top-label { display: flex; align-items: center; gap: 12px; margin-bottom: 24px; }
+    .dialog-top-line { background: var(--red); height: 1px; width: 30px; }
+    .dialog-top-text { font-family: 'Bebas Neue', sans-serif; font-size: 11px; color: var(--red); letter-spacing: 4px; }
+    .dialog-title { font-family: 'Bebas Neue', sans-serif; font-size: 52px; color: white; line-height: 1; margin-bottom: 14px; }
+    .dialog-dur { font-size: 14px; color: rgba(245,245,240,0.65); padding-bottom: 24px; border-bottom: 1px solid rgba(255,255,255,0.08); margin-bottom: 28px; }
+    .dialog-sec { font-family: 'Bebas Neue', sans-serif; font-size: 11px; color: var(--red); letter-spacing: 3px; margin-bottom: 10px; }
+    .dialog-desc-text { font-size: 15px; color: rgba(245,245,240,0.65); line-height: 1.7; margin-bottom: 28px; }
+    .dialog-info-box { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); padding: 22px; margin-bottom: 28px; display: flex; flex-direction: column; gap: 14px; }
+    .dialog-info-row { display: flex; align-items: flex-start; gap: 12px; }
+    .dialog-info-lbl { font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase; color: rgba(245,245,240,0.65); margin-bottom: 3px; }
+    .dialog-info-val { font-size: 15px; color: white; }
+    .dialog-precio { font-size: 26px; font-weight: 700; color: var(--red); }
+    .dialog-list { list-style: none; margin-bottom: 24px; }
+    .dialog-list li { position: relative; padding: 6px 0 6px 18px; font-size: 14px; color: rgba(245,245,240,0.65); border-bottom: 1px solid rgba(255,255,255,0.05); }
+    .dialog-list li::before { content: '→'; position: absolute; left: 0; color: var(--red); font-size: 11px; top: 8px; }
+    .dialog-obj { list-style: none; margin-bottom: 28px; }
+    .dialog-obj li { padding: 10px 0 10px 14px; font-size: 14px; color: rgba(245,245,240,0.65); border-left: 2px solid rgba(232,0,29,0.3); margin-bottom: 8px; }
+    .dialog-footer-h { font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 700; color: white; margin-bottom: 6px; }
+    .dialog-footer-p { font-size: 13px; color: rgba(245,245,240,0.55); margin-bottom: 20px; }
+    .dialog-btns { display: flex; gap: 12px; }
+    .dialog-btn-p { flex: 1; background: var(--red); color: white; padding: 14px; border: none; font-size: 11px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; cursor: pointer; }
+    .dialog-btn-s { flex: 1; background: transparent; color: white; padding: 14px; border: 1px solid rgba(255,255,255,0.3); font-size: 11px; font-weight: 300; letter-spacing: 1.5px; text-transform: uppercase; cursor: pointer; }
+
+    /* RESPONSIVE */
+    @media (max-width: 900px) {
+      .navbar { padding: 16px 24px; }
+      .nav-links { display: none; }
+      .section-que-es, .section-sobre { grid-template-columns: 1fr; gap: 40px; padding: 60px 24px; }
+      .que-es-right { border-left: none; padding-left: 0; border-top: 1px solid var(--white-8); padding-top: 40px; }
+      .section-todo, .section-como, .section-formatos, .section-programas-activos, .section-experiencia, .section-antes, .section-comunidad, .section-cta { padding: 60px 24px; }
+      .timeline::before { display: none; }
+      .timeline-item { grid-template-columns: 1fr; display: flex; flex-direction: column; }
+      .timeline-text, .timeline-text.left { text-align: left; padding: 0; }
+      .timeline-text .timeline-tags { justify-content: flex-start; }
+      .todo-grid { grid-template-columns: 1fr 1fr; }
+      .formatos-grid, .programas-grid { grid-template-columns: 1fr 1fr; }
+      .antes-grid { grid-template-columns: 1fr; }
+      .footer-grid { grid-template-columns: 1fr 1fr; gap: 40px; }
+      .footer-bottom { flex-direction: column; gap: 8px; }
+    }
+    @media (max-width: 500px) {
+      .todo-grid, .formatos-grid, .programas-grid { grid-template-columns: 1fr; }
+      .footer-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar">
+  <a href="#" class="nav-logo">
+    <img src="https://www.figma.com/api/mcp/asset/f7106f76-be6a-45c0-af60-7d76b23a39cd" alt="FIMx" />
+  </a>
+  <ul class="nav-links">
+    <li><a href="#programas">Programas</a></li>
+    <li><a href="#sobre">Nosotros</a></li>
+    <li><a href="#comunidad">Comunidad</a></li>
+    <li><a href="#cta" class="nav-cta">Inscríbete</a></li>
+  </ul>
+</nav>
+
+<!-- ① HERO -->
+<section class="hero" id="inicio">
+  <div class="slide active">
+    <div class="slide-bg" style="background-image:url('https://www.figma.com/api/mcp/asset/5a1f6f70-7af5-4bad-aa1b-48e3e5f81ca3')"></div>
+    <div class="slide-gradient"></div><div class="slide-divider"></div>
+    <div class="slide-content">
+      <div class="slide-title-red">AI</div><div class="slide-title-white">EN LA MODA</div>
+      <p class="slide-subtitle">El futuro del patronaje y diseño generativo aplicado a marcas de lujo.</p>
+      <div class="slide-buttons">
+        <button class="btn-primary" onclick="document.querySelector('#programas').scrollIntoView({behavior:'smooth'})">Inscríbete a nuestros cursos</button>
+        <button class="btn-secondary">Ver próximos eventos</button>
+      </div>
+    </div>
+  </div>
+  <div class="slide">
+    <div class="slide-bg" style="background-image:url('https://www.figma.com/api/mcp/asset/5a1f6f70-7af5-4bad-aa1b-48e3e5f81ca3')"></div>
+    <div class="slide-gradient"></div><div class="slide-divider"></div>
+    <div class="slide-content">
+      <div class="slide-title-red">DISEÑO</div><div class="slide-title-white">Y PATRONAJE</div>
+      <p class="slide-subtitle">Fundamentos técnicos para la creación de siluetas contemporáneas.</p>
+      <div class="slide-buttons">
+        <button class="btn-primary" onclick="document.querySelector('#programas').scrollIntoView({behavior:'smooth'})">Inscríbete a nuestros cursos</button>
+        <button class="btn-secondary">Ver próximos eventos</button>
+      </div>
+    </div>
+  </div>
+  <div class="slide">
+    <div class="slide-bg" style="background-image:url('https://www.figma.com/api/mcp/asset/5a1f6f70-7af5-4bad-aa1b-48e3e5f81ca3')"></div>
+    <div class="slide-gradient"></div><div class="slide-divider"></div>
+    <div class="slide-content">
+      <div class="slide-title-red">COSTURA DE</div><div class="slide-title-white">HIGH FASHION</div>
+      <p class="slide-subtitle">Técnicas de alta costura aplicadas al mercado contemporáneo.</p>
+      <div class="slide-buttons">
+        <button class="btn-primary" onclick="document.querySelector('#programas').scrollIntoView({behavior:'smooth'})">Inscríbete a nuestros cursos</button>
+        <button class="btn-secondary">Ver próximos eventos</button>
+      </div>
+    </div>
+  </div>
+  <div class="slide">
+    <div class="slide-bg" style="background-image:url('https://www.figma.com/api/mcp/asset/5a1f6f70-7af5-4bad-aa1b-48e3e5f81ca3')"></div>
+    <div class="slide-gradient"></div><div class="slide-divider"></div>
+    <div class="slide-content">
+      <div class="slide-title-red">ASISTENTE DE</div><div class="slide-title-white">VESTUARIO</div>
+      <p class="slide-subtitle">Protocolos técnicos de asistencia y vestuario en backstage.</p>
+      <div class="slide-buttons">
+        <button class="btn-primary" onclick="document.querySelector('#programas').scrollIntoView({behavior:'smooth'})">Inscríbete a nuestros cursos</button>
+        <button class="btn-secondary">Ver próximos eventos</button>
+      </div>
+    </div>
+  </div>
+  <div class="dots">
+    <div class="dot active" onclick="goTo(0)"></div>
+    <div class="dot" onclick="goTo(1)"></div>
+    <div class="dot" onclick="goTo(2)"></div>
+    <div class="dot" onclick="goTo(3)"></div>
+  </div>
+</section>
+
+<!-- ② QUÉ ES FIMX -->
+<section class="section-que-es" id="sobre">
+  <div>
+    <div class="section-label"><div class="section-label-line"></div><span class="section-label-text">¿Qué es FIMx?</span></div>
+    <h2 class="heading-2">Fashion<br>Incubator<br><em>México</em></h2>
+  </div>
+  <div class="que-es-right">
+    <p class="text-highlight">Un espacio donde la <strong>educación, la comunidad y la industria</strong> se encuentran.</p>
+    <p style="font-weight:300;font-size:16px;color:var(--white-65);line-height:1.75;">Aquí no solo aprendes: desarrollas proyectos reales, conectas con otros creativos y encuentras oportunidades para crecer dentro del medio.</p>
+  </div>
+</section>
+
+<!-- ③ TODO LO QUE NECESITAS PARA CRECER -->
+<section class="section-todo">
+  <div>
+    <div class="section-label"><div class="section-label-line"></div><span class="section-label-text">¿Qué puedes hacer aquí?</span></div>
+    <h2 class="heading-2">Todo lo que<br>necesitas para<br><em>crecer</em></h2>
+  </div>
+  <div class="todo-grid">
+    <div class="todo-item"><div class="todo-num">01</div><div class="todo-title">Aprender</div><div class="todo-desc">Desde cero o desarrolla tus habilidades con programas diseñados para creativos.</div></div>
+    <div class="todo-item"><div class="todo-num">02</div><div class="todo-title">Crear</div><div class="todo-desc">Tu propio proyecto con acompañamiento de mentores de la industria.</div></div>
+    <div class="todo-item"><div class="todo-num">03</div><div class="todo-title">Conectar</div><div class="todo-desc">Con personas de la industria creativa en Monterrey y México.</div></div>
+    <div class="todo-item"><div class="todo-num">04</div><div class="todo-title">Participar</div><div class="todo-desc">En eventos, pasarelas y exposiciones donde muestras tu trabajo al mundo.</div></div>
+  </div>
+</section>
+
+<!-- ④ TU CAMINO EN FIMx -->
+<section class="section-como">
+  <div style="width:100%;max-width:1216px;">
+    <div class="section-label"><div class="section-label-line"></div><span class="section-label-text">Cómo funciona</span></div>
+    <h2 class="heading-2">Tu camino en <em>FIMx</em></h2>
+  </div>
+  <div class="timeline">
+    <div class="timeline-item">
+      <div class="timeline-text">
+        <h3 class="timeline-title">Aprende los Fundamentos</h3>
+        <p class="timeline-desc">Todo gran viaje comienza con una base sólida. En nuestras Masterclasses intensivas, entenderás los pilares del diseño, la teoría del color y las tendencias globales que rigen el mercado actual.</p>
+        <div class="timeline-tags" style="justify-content:flex-end;"><span class="ttag">Diseño</span><span class="ttag">Historia del Arte</span></div>
+      </div>
+      <div><img class="timeline-img" src="https://www.figma.com/api/mcp/asset/3046a622-44d0-444c-bdfb-ecce6e36de0f" alt="Aprendiendo" /></div>
+      <div class="timeline-num">1</div>
+    </div>
+    <div class="timeline-item">
+      <div><img class="timeline-img" src="https://www.figma.com/api/mcp/asset/8813dca5-fb7d-454e-9fdd-219302723c35" alt="Creando" /></div>
+      <div class="timeline-text left">
+        <h3 class="timeline-title">Desarrolla tu Visión</h3>
+        <p class="timeline-desc">Es hora de ensuciarse las manos. A través de nuestros cursos de 3 semanas, transformarás el conocimiento en técnica: patronaje, costura y diseño digital avanzado para dar vida a tus ideas.</p>
+        <div class="timeline-tags"><span class="ttag">Patronaje</span><span class="ttag">Sustentabilidad</span></div>
+      </div>
+      <div class="timeline-num">2</div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-text">
+        <h3 class="timeline-title">Conecta y Expande</h3>
+        <p class="timeline-desc">Nadie llega solo a la cima. Participa en showrooms, pop-up stores y eventos de networking donde conocerás a mentores, colegas y posibles inversores que impulsarán tu proyecto.</p>
+        <div class="timeline-tags" style="justify-content:flex-end;"><span class="ttag">Networking</span><span class="ttag">Showrooming</span></div>
+      </div>
+      <div><img class="timeline-img" src="https://www.figma.com/api/mcp/asset/ae97ebd3-e84b-4ad7-b2e1-563fd38b4a48" alt="Conectando" /></div>
+      <div class="timeline-num">3</div>
+    </div>
+    <div class="timeline-item">
+      <div><img class="timeline-img" src="https://www.figma.com/api/mcp/asset/51dba72e-0d6d-4211-80af-6de29071f607" alt="Pasarela" /></div>
+      <div class="timeline-text left">
+        <h3 class="timeline-title">Impacta en la Industria</h3>
+        <p class="timeline-desc">El destino final de este capítulo es tu consolidación. Te ayudamos a escalar tu marca, gestionar tu estrategia digital y presentar tu trabajo en los escenarios más importantes de México.</p>
+        <div class="timeline-tags"><span class="ttag">Estrategia</span><span class="ttag">Lanzamiento</span></div>
+      </div>
+      <div class="timeline-num">4</div>
+    </div>
+  </div>
+</section>
+
+<!-- ⑤ NO SOMOS UNA ESCUELA TRADICIONAL -->
+<section class="section-sobre">
+  <div>
+    <div class="section-label"><div class="section-label-line"></div><span class="section-label-text">Sobre Nosotros</span></div>
+    <h2 class="heading-2" style="margin-bottom:24px;">No somos<br>una escuela<br><em>tradicional</em></h2>
+    <p style="font-weight:300;font-size:16px;color:var(--white-65);line-height:1.75;max-width:540px;">Impulsamos el talento creativo local para posicionar a Monterrey como un referente en moda y arte. Facilitamos el desarrollo de creativos emergentes mediante formación práctica, acompañamiento y acceso a oportunidades reales.</p>
+  </div>
+  <div class="sobre-cards">
+    <div class="sobre-card">
+      <p class="sobre-card-title">Lo que hacemos</p>
+      <ul class="sobre-list">
+        <li>Formación práctica orientada a proyectos reales</li>
+        <li>Acompañamiento personalizado en cada etapa</li>
+        <li>Comunidad activa de creativos locales</li>
+        <li>Acceso a oportunidades reales en la industria</li>
+      </ul>
+    </div>
+    <div class="sobre-card">
+      <p class="sobre-card-title">En FIMx</p>
+      <ul class="sobre-list">
+        <li>Aprendes haciendo desde la primera sesión</li>
+        <li>Desarrollas tu propio proyecto creativo</li>
+        <li>Te conectas directamente con la industria</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ⑥ PROGRAMAS & FORMATOS (4 cards, cada ítem abre popup) -->
+<section class="section-formatos" id="programas">
+  <div>
+    <div class="section-label"><div class="section-label-line"></div><span class="section-label-text">Oferta Académica</span></div>
+    <h2 class="heading-2">Programas<br><em>& Formatos</em></h2>
+  </div>
+  <div class="formatos-grid">
+
+    <div class="prog-card">
+      <span class="prog-badge">Cursos</span>
+      <div class="prog-title">Desarrolla tu Proyecto</div>
+      <div class="prog-desc">Programas donde creas un proyecto propio con acompañamiento de mentores.</div>
+      <ul class="prog-list">
+        <li onclick="openDialog('Costura','3 semanas · materiales + mentoría','Domina las técnicas fundamentales de costura profesional. Aprende desde los puntos básicos hasta técnicas avanzadas de construcción de prendas.','Ana Martínez','Lunes y Miércoles · 18:00 – 21:00','$4,500 MXN',['Materiales de costura profesionales','Acceso a taller equipado','Sesiones de mentoría personalizada','Certificado de finalización'],['Dominar técnicas de costura a mano y máquina','Comprender tipos de telas y sus aplicaciones','Realizar acabados profesionales'])">— Costura</li>
+        <li onclick="openDialog('Diseño de Moda','6 semanas · materiales + mentoría','Desarrolla tu visión creativa y aprende técnicas profesionales de diseño de modas aplicadas al mercado actual.','Ana Martínez','Lunes y Miércoles · 18:00 – 21:00','$8,500 MXN',['Materiales de diseño','Software de diseño digital','Mentoría personalizada','Certificado de finalización'],['Desarrollar una identidad creativa propia','Crear colecciones con coherencia estética','Presentar un portafolio profesional'])">— Diseño</li>
+        <li onclick="openDialog('Patronaje y Confección','4 semanas · materiales + mentoría','Domina el arte del patronaje industrial y confección de prendas de alta calidad.','Carlos Ruiz','Martes y Jueves · 10:00 – 13:00','$7,200 MXN',['Materiales de patronaje','Telas para práctica','Mentoría especializada','Certificado de finalización'],['Trazar patrones industriales','Confeccionar prendas de calidad','Aplicar acabados profesionales'])">— Patronaje</li>
+        <li onclick="openDialog('Construcción de Prendas','3 semanas · materiales + mentoría','Aprende los fundamentos de la construcción textil desde la selección de materiales hasta el ensamble final.','Ana Martínez','Viernes y Sábados · 10:00 – 14:00','$5,500 MXN',['Materiales de construcción','Herramientas especializadas','Mentoría en taller','Certificado de finalización'],['Seleccionar materiales adecuados','Ensamblar prendas complejas','Lograr acabados de calidad'])">— Construcción</li>
+      </ul>
+      <div class="prog-meta">Duración: <strong>3 semanas · incluye materiales + mentoría</strong></div>
+      <button class="prog-cta-btn" onclick="window.location.href='checkout.html'">Inscribirse</button>
+    </div>
+
+    <div class="prog-card">
+      <span class="prog-badge">Complementarios</span>
+      <div class="prog-title">Amplía tu Visión</div>
+      <div class="prog-desc">Herramientas adicionales de la industria para potenciar tu perfil creativo.</div>
+      <ul class="prog-list">
+        <li onclick="openDialog('Historia del Arte y la Moda','4 semanas · material de estudio','Recorre la historia de la moda desde la antigüedad hasta el streetwear contemporáneo. Entiende cómo el arte y la cultura impactan las tendencias globales.','Dra. Sofía Mendoza','Miércoles · 17:00 – 20:00','$3,800 MXN',['Material de estudio completo','Acceso a biblioteca digital','Sesiones de análisis','Certificado de finalización'],['Contextualizar las tendencias históricamente','Identificar movimientos artísticos clave','Aplicar referencias históricas al diseño contemporáneo'])">— Historia del Arte</li>
+        <li onclick="openDialog('Fotografía de Moda','4 semanas · uso de equipo incluido','Captura la esencia de las prendas con técnicas de fotografía profesional de moda. Aprende iluminación, dirección y edición.','Laura Gómez','Sábados · 10:00 – 14:00','$5,800 MXN',['Acceso a estudio fotográfico','Equipo de iluminación','Edición en Lightroom','Certificado de finalización'],['Dominar la iluminación para moda','Dirigir sesiones fotográficas','Editar imágenes profesionalmente'])">— Fotografía</li>
+        <li onclick="openDialog('Modelaje','3 semanas · sesiones en pasarela','Aprende las técnicas de modelaje profesional: postura, caminata, expresión y manejo de cámara.','Valentina Cruz','Martes y Jueves · 16:00 – 19:00','$4,200 MXN',['Sesiones de pasarela','Retroalimentación personalizada','Fotos de portafolio','Certificado de finalización'],['Desarrollar presencia escénica','Perfeccionar la caminata de pasarela','Construir un portafolio de modelaje'])">— Modelaje</li>
+        <li onclick="openDialog('AI para Fashion Creators','2 semanas · 100% práctico','Aprende a usar herramientas de inteligencia artificial para potenciar tu proceso creativo: generación de imágenes, diseño asistido y tendencias predictivas.','Ing. Rodrigo Torres','Lunes y Miércoles · 19:00 – 21:00','$3,200 MXN',['Acceso a herramientas AI premium','Guías de prompting para moda','Proyectos prácticos aplicados','Certificado de finalización'],['Generar imágenes con IA para moda','Usar AI en procesos de diseño','Predecir tendencias con datos'])">— AI para fashion creators</li>
+      </ul>
+      <button class="prog-cta-btn" onclick="window.location.href='checkout.html'">Inscribirse</button>
+    </div>
+
+    <div class="prog-card">
+      <span class="prog-badge">Talleres</span>
+      <div class="prog-title">Habilidades Específicas</div>
+      <div class="prog-desc">Sesiones prácticas para fortalecer competencias clave en tu carrera creativa.</div>
+      <ul class="prog-list">
+        <li onclick="openDialog('Organización del Tiempo para Creativos','1 día intensivo · 8 horas','Aprende a gestionar tu tiempo como creativo independiente. Técnicas de productividad adaptadas al mundo de la moda y el arte.','Lic. Mariana Flores','Sábado · 9:00 – 18:00','$1,800 MXN',['Material de trabajo','Planificador digital','Recursos de productividad','Certificado de asistencia'],['Crear sistemas de organización efectivos','Priorizar proyectos creativos','Equilibrar creatividad y productividad'])">— Organización del tiempo</li>
+        <li onclick="openDialog('Golden Circle para Tu Marca','1 día intensivo · 6 horas','Descubre el propósito de tu marca creativa usando la metodología del Golden Circle de Simon Sinek. Define tu por qué, cómo y qué.','MBA. Carlos Vega','Domingo · 10:00 – 16:00','$1,500 MXN',['Workbook del Golden Circle','Plantillas de branding','Sesión de feedback grupal','Certificado de asistencia'],['Definir el propósito de tu marca','Comunicar tu diferenciador','Construir una propuesta de valor'])">— Golden Circle</li>
+        <li onclick="openDialog('Estrategia Digital para Moda','2 días · 4 horas cada uno','Aprende a posicionar tu marca de moda en redes sociales, crear contenido que convierte y construir una audiencia leal.','Mtra. Daniela Ríos','Sábado y Domingo · 10:00 – 14:00','$2,200 MXN',['Plantillas de contenido','Guía de Instagram y TikTok','Herramientas de análisis','Certificado de asistencia'],['Crear una estrategia de contenido','Crecer tu audiencia orgánicamente','Monetizar tu presencia digital'])">— Estrategia digital</li>
+      </ul>
+      <button class="prog-cta-btn" onclick="window.location.href='checkout.html'">Inscribirse</button>
+    </div>
+
+    <div class="prog-card">
+      <span class="prog-badge">Masterclasses</span>
+      <div class="prog-title">Sesiones Intensivas</div>
+      <div class="prog-desc">Introducción a nuevas áreas en formato concentrado y práctico. Ideal para explorar antes de comprometerte con un curso completo.</div>
+      <ul class="prog-list">
+        <li onclick="openDialog('Diseño 101','1 día · 3–4 horas','Introducción al mundo del diseño de moda: conceptos básicos, materiales, tendencias y proceso creativo. Una experiencia completa en pocas horas.','Ana Martínez','Sábado · 10:00 – 14:00','$800 MXN',['Material de referencia','Ejercicio práctico guiado','Retroalimentación en grupo'],['Entender los fundamentos del diseño','Conocer el proceso creativo profesional','Explorar si el diseño es para ti'])">— Diseño 101</li>
+        <li onclick="openDialog('IA en la Moda','1 día · 3 horas','Una introducción práctica al uso de inteligencia artificial en el diseño y la industria de la moda. Experimenta con herramientas de vanguardia.','Ing. Rodrigo Torres','Domingo · 11:00 – 14:00','$700 MXN',['Acceso temporal a herramientas AI','Guía de prompts para moda','Ejemplos de aplicaciones reales'],['Explorar las posibilidades del AI en moda','Crear imágenes con inteligencia artificial','Entender el futuro del diseño generativo'])">— IA para moda</li>
+      </ul>
+      <div class="prog-meta" style="margin-top:8px;">Duración: <strong>3–4 horas</strong></div>
+      <div class="prog-meta">Ideal para: <strong>principiantes o exploración</strong></div>
+      <button class="prog-cta-btn" onclick="window.location.href='checkout.html'">Inscribirse</button>
+    </div>
+
+  </div>
+</section>
+
+<!-- ⑦ PROGRAMAS ACTIVOS -->
+<section class="section-programas-activos">
+  <div class="section-label" style="margin-bottom:8px;">
+    <div class="section-label-line"></div>
+    <span class="section-label-text" style="color:var(--red);">Programas activos</span>
+  </div>
+  <h2 class="heading-2" style="color:#0a0a0a;">Aprende y <em>crea</em></h2>
+  <div class="programas-grid">
+    <div class="programa-card" onclick="openDialog('Diseño de Moda Avanzado','6 semanas · materiales + mentoría','Desarrolla tu visión creativa y aprende técnicas profesionales de diseño de modas aplicadas al mercado actual.','Ana Martínez','Lunes y Miércoles · 18:00 – 21:00','$8,500 MXN',['Materiales de diseño','Software de diseño digital','Mentoría personalizada','Certificado de finalización'],['Desarrollar una identidad creativa propia','Crear colecciones con coherencia estética','Presentar un portafolio profesional'])">
+      <img src="https://www.figma.com/api/mcp/asset/3046a622-44d0-444c-bdfb-ecce6e36de0f" alt="Diseño de Moda Avanzado" />
+      <div class="programa-card-info"><span class="programa-badge">Avanzado</span><p class="programa-name">DISEÑO DE MODA AVANZADO</p></div>
+    </div>
+    <div class="programa-card" onclick="openDialog('Patronaje y Confección','4 semanas · materiales + mentoría','Domina el arte del patronaje industrial y confección de prendas de alta calidad.','Carlos Ruiz','Martes y Jueves · 10:00 – 13:00','$7,200 MXN',['Materiales de patronaje','Telas para práctica','Mentoría especializada','Certificado de finalización'],['Trazar patrones industriales','Confeccionar prendas de calidad','Aplicar acabados profesionales'])">
+      <img src="https://www.figma.com/api/mcp/asset/8813dca5-fb7d-454e-9fdd-219302723c35" alt="Patronaje y Confección" />
+      <div class="programa-card-info"><span class="programa-badge">Intermedio</span><p class="programa-name">PATRONAJE Y CONFECCIÓN</p></div>
+    </div>
+    <div class="programa-card" onclick="openDialog('Costura','3 semanas · materiales + mentoría','Domina las técnicas fundamentales de costura profesional. Aprende desde los puntos básicos hasta técnicas avanzadas de construcción de prendas.','Ana Martínez','Lunes y Miércoles · 18:00 – 21:00','$4,500 MXN',['Materiales de costura profesionales','Acceso a taller equipado','Mentoría personalizada','Certificado de finalización'],['Dominar técnicas de costura a mano y máquina','Comprender tipos de telas y sus aplicaciones','Realizar acabados profesionales'])">
+      <img src="https://www.figma.com/api/mcp/asset/ae97ebd3-e84b-4ad7-b2e1-563fd38b4a48" alt="Costura" />
+      <div class="programa-card-info"><span class="programa-badge">Principiante</span><p class="programa-name">COSTURA DE HIGH FASHION</p></div>
+    </div>
+    <div class="programa-card" onclick="openDialog('Fotografía de Moda','4 semanas · uso de equipo incluido','Captura la esencia de las prendas con técnicas de fotografía profesional de moda.','Laura Gómez','Sábados · 10:00 – 14:00','$5,800 MXN',['Acceso a estudio fotográfico','Equipo de iluminación','Edición en Lightroom','Certificado de finalización'],['Dominar la iluminación para moda','Dirigir sesiones fotográficas','Editar imágenes profesionalmente'])">
+      <img src="https://www.figma.com/api/mcp/asset/51dba72e-0d6d-4211-80af-6de29071f607" alt="Fotografía de Moda" />
+      <div class="programa-card-info"><span class="programa-badge">Intermedio</span><p class="programa-name">FOTOGRAFÍA DE MODA</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ⑧ DESDE LA PRIMERA SESIÓN -->
+<section class="section-experiencia">
+  <div class="section-label" style="justify-content:center;"><div class="section-label-line"></div><span class="section-label-text">Experiencia FIMx</span></div>
+  <h2 class="heading-2" style="text-align:center;">Desde la primera<br>sesión, <em>estás creando</em></h2>
+  <p style="font-weight:300;font-size:16px;color:var(--white-65);line-height:1.75;max-width:640px;text-align:center;">Aprendes de forma dinámica, práctica y colaborativa. No solo tomas clases, te integras a una comunidad creativa activa.</p>
+  <div class="experiencia-quote">"Aquí no acumulas conocimiento — <strong>construyes tu proyecto.</strong>"</div>
+</section>
+
+<!-- ⑨ ANTES Y DESPUÉS -->
+<section class="section-antes" id="antes">
+  <div style="width:100%;text-align:center;">
+    <div class="section-label" style="justify-content:center;"><div class="section-label-line"></div><span class="section-label-text">Resultados</span></div>
+    <h2 class="heading-2" style="text-align:center;">Antes y <em>Después</em></h2>
+  </div>
+  <div class="antes-grid">
+    <div class="antes-col before">
+      <div class="antes-col-title">Antes de FIMx</div>
+      <ul class="antes-list">
+        <li>Ideas sin estructura</li>
+        <li>Poca claridad sobre el camino</li>
+        <li>Falta de contactos en la industria</li>
+        <li>Proyectos que no llegan a ningún lado</li>
+      </ul>
+    </div>
+    <div class="antes-col after">
+      <div class="antes-col-title">Después de FIMx</div>
+      <ul class="antes-list">
+        <li>Proyecto desarrollado y tangible</li>
+        <li>Conocimientos aplicables desde el primer día</li>
+        <li>Red de contactos en la industria creativa</li>
+        <li>Mayor seguridad para crear y crecer</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ⑩ UN PUNTO DE ENCUENTRO CREATIVO -->
+<section class="section-comunidad" id="comunidad">
+  <div>
+    <div class="section-label"><div class="section-label-line"></div><span class="section-label-text">Comunidad</span></div>
+    <h2 class="heading-2">Un punto de<br><em>encuentro</em><br>creativo</h2>
+  </div>
+  <div class="comunidad-tags">
+    <span class="comunidad-tag">Diseñadores</span>
+    <span class="comunidad-tag">Artistas</span>
+    <span class="comunidad-tag">Músicos</span>
+    <span class="comunidad-tag">Modelos</span>
+    <span class="comunidad-tag">Creativos</span>
+    <span class="comunidad-tag">Fotógrafos</span>
+    <span class="comunidad-tag">Emprendedores</span>
+  </div>
+  <div class="comunidad-quote">Un espacio donde las ideas se convierten en colaboraciones.</div>
+</section>
+
+<!-- ⑪ LISTO PARA EMPEZAR -->
+<section class="section-cta" id="cta">
+  <h2 class="cta-title">¿Listo para<br><em>empezar?</em></h2>
+  <p style="color:rgba(255,255,255,0.85);font-size:16px;font-weight:300;max-width:380px;text-align:center;line-height:1.7;">Da el primer paso hacia tu carrera en la industria de la moda.</p>
+  <a href="checkout.html" class="btn-white">Inscríbete ahora</a>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer-grid">
+    <div>
+      <div class="footer-logo"><img src="https://www.figma.com/api/mcp/asset/7ca8ee27-0353-47ff-b2a6-00840f1bb84e" alt="FIMx" /></div>
+      <div class="footer-contact">Fashion Incubator México<br><br>CONTÁCTANOS:<br>Teléfono: +52 81 15 39 73 80<br>Correo: <a href="mailto:fashionincubatormexico@gmail.com">fashionincubatormexico@gmail.com</a><br>Instagram: @fashionincubatormx</div>
+    </div>
+    <div>
+      <div class="footer-col-title">Programas</div>
+      <ul class="footer-links">
+        <li><a href="#programas">Masterclasses</a></li>
+        <li><a href="#programas">Cursos</a></li>
+        <li><a href="#programas">Talleres</a></li>
+        <li><a href="#programas">Eventos</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="footer-col-title">Recursos</div>
+      <ul class="footer-links">
+        <li><a href="#sobre">Sobre nosotros</a></li>
+        <li><a href="#comunidad">Comunidad</a></li>
+        <li><a href="#antes">Resultados</a></li>
+        <li><a href="/aviso-privacidad.html">Aviso de privacidad</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="footer-col-title">Newsletter</div>
+      <div class="footer-nl-desc">Entérate de próximos eventos, cursos y oportunidades.</div>
+      <div class="footer-nl-form">
+        <input class="footer-nl-input" type="email" placeholder="tu@correo.com" />
+        <button class="footer-nl-btn">OK</button>
+      </div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span class="footer-copy">© 2025 Fashion Incubator México. Todos los derechos reservados.</span>
+    <span class="footer-location">Monterrey, NL · México</span>
+  </div>
+</footer>
+
+<!-- DIALOG DE CURSO -->
+<div class="dialog-overlay" id="dlg" onclick="if(event.target===this)closeDialog()">
+  <div class="dialog-box">
+    <button class="dialog-close" onclick="closeDialog()">✕</button>
+    <div class="dialog-top-label"><div class="dialog-top-line"></div><span class="dialog-top-text">Cursos</span></div>
+    <h2 class="dialog-title" id="d-title"></h2>
+    <div class="dialog-dur" id="d-dur"></div>
+    <p class="dialog-sec">DESCRIPCIÓN</p>
+    <p class="dialog-desc-text" id="d-desc"></p>
+    <div class="dialog-info-box">
+      <div class="dialog-info-row">
+        <span style="color:var(--red)">👤</span>
+        <div><div class="dialog-info-lbl">Instructor</div><div class="dialog-info-val" id="d-inst"></div></div>
+      </div>
+      <div class="dialog-info-row">
+        <span style="color:var(--red)">📅</span>
+        <div><div class="dialog-info-lbl">Horario</div><div class="dialog-info-val" id="d-hora"></div></div>
+      </div>
+      <div class="dialog-info-row">
+        <span style="color:var(--red);font-weight:700">$</span>
+        <div><div class="dialog-info-lbl">Inversión</div><div class="dialog-precio" id="d-precio"></div></div>
+      </div>
+    </div>
+    <p class="dialog-sec">INCLUYE</p>
+    <ul class="dialog-list" id="d-inc"></ul>
+    <p class="dialog-sec">OBJETIVOS DE APRENDIZAJE</p>
+    <ul class="dialog-obj" id="d-obj"></ul>
+    <div class="dialog-footer-h">¿Listo para empezar?</div>
+    <div class="dialog-footer-p">Inscríbete ahora y comienza tu camino en la industria creativa.</div>
+    <div class="dialog-btns">
+      <button class="dialog-btn-p" onclick="window.location.href='checkout.html'">Inscribirme ahora</button>
+      <button class="dialog-btn-s" onclick="window.open('https://wa.me/528115397380','_blank')">Más información</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  // ── Carousel ──
+  let cur = 0;
+  const slides = document.querySelectorAll('.slide');
+  const dots = document.querySelectorAll('.dot');
+  function goTo(n) {
+    slides[cur].classList.remove('active'); dots[cur].classList.remove('active');
+    cur = n;
+    slides[cur].classList.add('active'); dots[cur].classList.add('active');
+  }
+  setInterval(() => goTo((cur + 1) % slides.length), 4500);
+
+  // ── Dialog ──
+  function openDialog(title, dur, desc, inst, hora, precio, inc, obj) {
+    document.getElementById('d-title').textContent = title;
+    document.getElementById('d-dur').textContent = '⏱ ' + dur;
+    document.getElementById('d-desc').textContent = desc;
+    document.getElementById('d-inst').textContent = inst;
+    document.getElementById('d-hora').textContent = hora;
+    document.getElementById('d-precio').textContent = precio;
+    document.getElementById('d-inc').innerHTML = inc.map(i=>`<li>${i}</li>`).join('');
+    document.getElementById('d-obj').innerHTML = obj.map(o=>`<li>${o}</li>`).join('');
+    document.getElementById('dlg').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeDialog() {
+    document.getElementById('dlg').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+</script>
+</body>
+</html>
