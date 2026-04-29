@@ -4,22 +4,26 @@
       {
         "titulo_rojo": "AI",
         "titulo_blanco": "EN LA MODA",
-        "descripcion": "El futuro del patronaje y diseño generativo aplicado a marcas de lujo."
+        "descripcion": "El futuro del patronaje y diseño generativo aplicado a marcas de lujo.",
+        "imagen": ""
       },
       {
         "titulo_rojo": "DISEÑO",
         "titulo_blanco": "Y PATRONAJE",
-        "descripcion": "Fundamentos técnicos para la creación de siluetas contemporáneas."
+        "descripcion": "Fundamentos técnicos para la creación de siluetas contemporáneas.",
+        "imagen": ""
       },
       {
         "titulo_rojo": "COSTURA DE",
         "titulo_blanco": "HIGH FASHION",
-        "descripcion": "Técnicas de alta costura aplicadas al mercado contemporáneo."
+        "descripcion": "Técnicas de alta costura aplicadas al mercado contemporáneo.",
+        "imagen": ""
       },
       {
         "titulo_rojo": "ASISTENTE DE",
         "titulo_blanco": "VESTUARIO",
-        "descripcion": "Protocolos técnicos de asistencia y vestuario en backstage."
+        "descripcion": "Protocolos técnicos de asistencia y vestuario en backstage.",
+        "imagen": ""
       }
     ]
   },
