@@ -1,0 +1,15 @@
+{
+  "id": "diseno-moda",
+  "nombre": "Diseño de Moda Avanzado",
+  "precio": 8500,
+  "duracion": "12 semanas",
+  "nivel": "Avanzado",
+  "instructor": "Ana Martínez",
+  "horario": "Lunes y Miércoles · 18:00 – 21:00",
+  "descripcion": "Desarrolla tu visión creativa y aprende técnicas profesionales de diseño de modas aplicadas al mercado actual.",
+  "incluye": ["Materiales de diseño", "Software de diseño digital", "Mentoría personalizada", "Certificado de finalización"],
+  "objetivos": ["Desarrollar una identidad creativa propia", "Crear colecciones con coherencia estética", "Presentar un portafolio profesional"],
+  "lemon_store": "351738",
+  "lemon_product": "990310",
+  "activo": true
+}
