@@ -1,15 +1,24 @@
 {
-  "id": "patronaje",
-  "nombre": "Patronaje y Confección",
-  "precio": 7200,
-  "duracion": "10 semanas",
   "nivel": "Intermedio",
-  "instructor": "Carlos Ruiz",
   "horario": "Martes y Jueves · 10:00 – 13:00",
-  "descripcion": "Domina el arte del patronaje industrial y confección de prendas de alta calidad desde el trazo hasta la prenda terminada.",
-  "incluye": ["Materiales de patronaje", "Telas para práctica", "Mentoría especializada", "Certificado de finalización"],
-  "objetivos": ["Trazar patrones industriales", "Confeccionar prendas de calidad", "Aplicar acabados profesionales"],
-  "lemon_store": "351738",
   "lemon_product": "990310",
-  "activo": true
+  "duracion": "10 semanas",
+  "precio": 7200,
+  "nombre": "Patronaje y Confección",
+  "descripcion": "Domina el arte del patronaje industrial y confección de prendas de alta calidad desde el trazo hasta la prenda terminada.",
+  "activo": false,
+  "incluye": [
+    "Materiales de patronaje",
+    "Telas para práctica",
+    "Mentoría especializada",
+    "Certificado de finalización"
+  ],
+  "lemon_store": "351738",
+  "objetivos": [
+    "Trazar patrones industriales",
+    "Confeccionar prendas de calidad",
+    "Aplicar acabados profesionales"
+  ],
+  "id": "patronaje",
+  "instructor": "Carlos Ruiz"
 }
