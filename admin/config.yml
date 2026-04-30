@@ -37,7 +37,7 @@ collections:
         name: "objetivos"
         widget: "list"
         field: { label: "Objetivo", name: "objetivo", widget: "string" }
-      - { label: "Imagen del curso (URL)", name: "imagen", widget: "string", required: false }
+      - { label: "Imagen del curso", name: "imagen", widget: "image", required: false }
       - { label: "Curso activo en la web", name: "activo", widget: "boolean", default: true, hint: "Desactivar para ocultar sin borrar" }
 
   # ── CONTENIDO DEL SITIO ──
@@ -60,6 +60,7 @@ collections:
                 max: 6
                 summary: "{{fields.titulo_rojo}} {{fields.titulo_blanco}}"
                 fields:
+                  - { label: "Imagen de fondo", name: "imagen", widget: "image", required: false }
                   - { label: "Título en rojo", name: "titulo_rojo", widget: "string", hint: "Ej: AI" }
                   - { label: "Título en blanco", name: "titulo_blanco", widget: "string", hint: "Ej: EN LA MODA" }
                   - { label: "Descripción", name: "descripcion", widget: "string" }
