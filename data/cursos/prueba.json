@@ -1,0 +1,17 @@
+{
+  "nivel": "Intermedio",
+  "horario": "lunes",
+  "duracion": "1 dia",
+  "precio": 1,
+  "nombre": "prueba",
+  "descripcion": "prueba",
+  "activo": true,
+  "incluye": [
+    "prueba"
+  ],
+  "objetivos": [
+    "prueba"
+  ],
+  "id": "prueba",
+  "instructor": "prueba"
+}
