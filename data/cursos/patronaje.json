@@ -6,7 +6,7 @@
   "precio": 7200,
   "nombre": "Patronaje y Confección",
   "descripcion": "Domina el arte del patronaje industrial y confección de prendas de alta calidad desde el trazo hasta la prenda terminada.",
-  "activo": false,
+  "activo": true,
   "incluye": [
     "Materiales de patronaje",
     "Telas para práctica",
