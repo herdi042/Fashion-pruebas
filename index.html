@@ -591,10 +591,8 @@
       if (g.que_es_subtitulo) document.getElementById('que-es-subtitulo').innerHTML = g.que_es_subtitulo;
       if (g.que_es_descripcion) document.getElementById('que-es-descripcion').textContent = g.que_es_descripcion;
       if (g.escuela_descripcion) document.getElementById('escuela-descripcion').textContent = g.escuela_descripcion;
-      if (g.cta_titulo) document.getElementById('cta-titulo').innerHTML = g.cta_titulo.replace('
-', '<br>');
+      if (g.cta_titulo) document.getElementById('cta-titulo').innerHTML = g.cta_titulo.replace(/\n/g, '<br>');
       if (g.cta_subtitulo) document.getElementById('cta-subtitulo').textContent = g.cta_subtitulo;
-
       // Footer contacto
       const c = cfg.contacto || {};
       const footerEl = document.getElementById('footer-contacto');
