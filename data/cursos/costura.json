@@ -7,6 +7,7 @@
   "nombre": "Costura de High Fashion",
   "descripcion": "Domina las técnicas fundamentales de costura profesional. Aprende desde los puntos básicos hasta técnicas avanzadas de construcción de prendas.",
   "activo": true,
+  "imagen": "images/7.png",
   "incluye": [
     "Materiales de costura profesionales",
     "Acceso a taller equipado",
