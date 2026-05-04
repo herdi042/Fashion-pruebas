@@ -659,24 +659,13 @@
   }, 4500);
 
   // ── CARGAR CURSOS ──
-  const COURSE_FILES = ['costura', 'diseno-moda', 'patronaje', 'fotografia'];
-
   async function loadCourses() {
     try {
-      let files = COURSE_FILES;
-      try {
-        const idx = await fetch('data/cursos-index.json');
-        if (idx.ok) files = await idx.json();
-      } catch(e) {}
-
-      const results = await Promise.allSettled(
-        files.map(f => fetch('data/cursos/' + f + '.json').then(r => { if(!r.ok) throw new Error(f); return r.json(); }))
-      );
-      allCourses = results
-        .filter(r => r.status === 'fulfilled')
-        .map(r => r.value)
-        .filter(c => c.activo);
-
+      const res = await fetch('data/cursos.json');
+      if (!res.ok) throw new Error('No se pudo cargar cursos.json');
+      const data = await res.json();
+      const lista = data.cursos ? data.cursos : data;
+      allCourses = lista.filter(c => c.activo);
       renderProgramasActivos();
     } catch(e) {
       console.log('Error cargando cursos:', e);
