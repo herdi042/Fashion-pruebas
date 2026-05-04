@@ -1,0 +1,64 @@
+{
+  "cursos": [
+    {
+      "id": "costura",
+      "nombre": "Costura de High Fashion",
+      "precio": 6550,
+      "duracion": "8 semanas",
+      "nivel": "Avanzado",
+      "instructor": "Ana Martínez",
+      "horario": "Lunes y Miércoles · 18:00 – 21:00",
+      "descripcion": "Domina las técnicas fundamentales de costura profesional. Aprende desde los puntos básicos hasta técnicas avanzadas de construcción de prendas.",
+      "incluye": ["Materiales de costura profesionales", "Acceso a taller equipado", "Sesiones de mentoría personalizada", "Certificado de finalización"],
+      "objetivos": ["Dominar técnicas de costura a mano y máquina", "Comprender tipos de telas y sus aplicaciones", "Realizar acabados profesionales"],
+      "imagen": "/images/7.png",
+      "mercadopago_link": "https://mpago.la/2huCFP8",
+      "activo": true
+    },
+    {
+      "id": "diseno-moda",
+      "nombre": "Diseño de Moda Avanzado",
+      "precio": 8500,
+      "duracion": "12 semanas",
+      "nivel": "Avanzado",
+      "instructor": "Ana Martínez",
+      "horario": "Lunes y Miércoles · 18:00 – 21:00",
+      "descripcion": "Desarrolla tu visión creativa y aprende técnicas profesionales de diseño de modas aplicadas al mercado actual.",
+      "incluye": ["Materiales de diseño", "Software de diseño digital", "Mentoría personalizada", "Certificado de finalización"],
+      "objetivos": ["Desarrollar una identidad creativa propia", "Crear colecciones con coherencia estética", "Presentar un portafolio profesional"],
+      "imagen": "",
+      "mercadopago_link": "https://mpago.la/2huCFP8",
+      "activo": true
+    },
+    {
+      "id": "patronaje",
+      "nombre": "Patronaje y Confección",
+      "precio": 7200,
+      "duracion": "10 semanas",
+      "nivel": "Intermedio",
+      "instructor": "Carlos Ruiz",
+      "horario": "Martes y Jueves · 10:00 – 13:00",
+      "descripcion": "Domina el arte del patronaje industrial y confección de prendas de alta calidad desde el trazo hasta la prenda terminada.",
+      "incluye": ["Materiales de patronaje", "Telas para práctica", "Mentoría especializada", "Certificado de finalización"],
+      "objetivos": ["Trazar patrones industriales", "Confeccionar prendas de calidad", "Aplicar acabados profesionales"],
+      "imagen": "",
+      "mercadopago_link": "https://mpago.la/2huCFP8",
+      "activo": true
+    },
+    {
+      "id": "fotografia",
+      "nombre": "Fotografía de Moda",
+      "precio": 5800,
+      "duracion": "6 semanas",
+      "nivel": "Intermedio",
+      "instructor": "Laura Gómez",
+      "horario": "Sábados · 10:00 – 14:00",
+      "descripcion": "Captura la esencia de las prendas con técnicas de fotografía profesional de moda. Aprende iluminación, dirección y edición.",
+      "incluye": ["Acceso a estudio fotográfico", "Equipo de iluminación", "Edición en Lightroom", "Certificado de finalización"],
+      "objetivos": ["Dominar la iluminación para moda", "Dirigir sesiones fotográficas", "Editar imágenes profesionalmente"],
+      "imagen": "",
+      "mercadopago_link": "https://mpago.la/2huCFP8",
+      "activo": true
+    }
+  ]
+}
