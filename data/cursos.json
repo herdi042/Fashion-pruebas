@@ -95,6 +95,25 @@
       "id": "fotografia",
       "instructor": "Laura Gómez",
       "mercadopago_link": "https://mpago.la/2huCFP8"
+    },
+    {
+      "nivel": "Intermedio",
+      "horario": "1",
+      "duracion": "1",
+      "precio": 1,
+      "nombre": "prueba",
+      "descripcion": "prueba",
+      "activo": true,
+      "imagen": "/images/7.png",
+      "incluye": [
+        "prueba"
+      ],
+      "objetivos": [
+        "prueba"
+      ],
+      "id": "prueba-1",
+      "instructor": "prueba",
+      "mercadopago_link": "https://mpago.la/18MQJLc"
     }
   ]
 }
