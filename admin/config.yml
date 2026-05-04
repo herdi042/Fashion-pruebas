@@ -9,36 +9,38 @@ locale: es
 collections:
 
   # ── CURSOS ──
-  - name: "cursos"
+  - name: "catalogo"
     label: "Cursos"
-    label_singular: "Curso"
-    folder: "data/cursos"
-    create: true
-    delete: true
-    extension: "json"
-    format: "json"
-    identifier_field: "id"
-    slug: "{{id}}"
-    summary: "{{nombre}} — ${{precio}} MXN — {{nivel}}"
-    fields:
-      - { label: "ID único (nombre del archivo)", name: "id", widget: "string", hint: "Sin espacios ni acentos. Ej: costura-avanzada" }
-      - { label: "Nombre del curso", name: "nombre", widget: "string" }
-      - { label: "Precio (MXN)", name: "precio", widget: "number", value_type: "int", min: 0 }
-      - { label: "Duración", name: "duracion", widget: "string", hint: "Ej: 8 semanas" }
-      - { label: "Nivel", name: "nivel", widget: "select", options: ["Principiante", "Intermedio", "Avanzado"] }
-      - { label: "Instructor", name: "instructor", widget: "string" }
-      - { label: "Horario", name: "horario", widget: "string", hint: "Ej: Lunes y Miércoles · 18:00 – 21:00" }
-      - { label: "Descripción", name: "descripcion", widget: "text" }
-      - label: "¿Qué incluye?"
-        name: "incluye"
-        widget: "list"
-        field: { label: "Item", name: "item", widget: "string" }
-      - label: "Objetivos de aprendizaje"
-        name: "objetivos"
-        widget: "list"
-        field: { label: "Objetivo", name: "objetivo", widget: "string" }
-      - { label: "Imagen del curso", name: "imagen", widget: "image", required: false }
-      - { label: "Curso activo en la web", name: "activo", widget: "boolean", default: true, hint: "Desactivar para ocultar sin borrar" }
+    files:
+      - label: "Lista de Cursos"
+        name: "cursos"
+        file: "data/cursos.json"
+        fields:
+          - label: "Cursos"
+            name: "cursos"
+            widget: "list"
+            label_singular: "Curso"
+            summary: "{{fields.nombre}} — ${{fields.precio}} MXN — {{fields.nivel}}"
+            fields:
+              - { label: "ID único", name: "id", widget: "string", hint: "Sin espacios ni acentos. Ej: costura-avanzada" }
+              - { label: "Nombre del curso", name: "nombre", widget: "string" }
+              - { label: "Precio (MXN)", name: "precio", widget: "number", value_type: "int", min: 0 }
+              - { label: "Duración", name: "duracion", widget: "string", hint: "Ej: 8 semanas" }
+              - { label: "Nivel", name: "nivel", widget: "select", options: ["Principiante", "Intermedio", "Avanzado"] }
+              - { label: "Instructor", name: "instructor", widget: "string" }
+              - { label: "Horario", name: "horario", widget: "string", hint: "Ej: Lunes y Miércoles · 18:00 – 21:00" }
+              - { label: "Descripción", name: "descripcion", widget: "text" }
+              - label: "¿Qué incluye?"
+                name: "incluye"
+                widget: "list"
+                field: { label: "Item", name: "item", widget: "string" }
+              - label: "Objetivos de aprendizaje"
+                name: "objetivos"
+                widget: "list"
+                field: { label: "Objetivo", name: "objetivo", widget: "string" }
+              - { label: "Imagen del curso", name: "imagen", widget: "image", required: false }
+              - { label: "Link de Mercado Pago", name: "mercadopago_link", widget: "string", required: false, hint: "Ej: https://mpago.la/XXXXXXX — cada curso puede tener su propio link" }
+              - { label: "Curso activo en la web", name: "activo", widget: "boolean", default: true, hint: "Desactivar para ocultar sin borrar" }
 
   # ── CONTENIDO DEL SITIO ──
   - name: "site"
@@ -86,10 +88,10 @@ collections:
               - { label: "Instagram", name: "instagram", widget: "string" }
               - { label: "Ciudad", name: "ciudad", widget: "string" }
 
-          - label: "Pagos y Mercado Pago"
+          - label: "Pagos — Link General"
             name: "pagos"
             widget: "object"
             fields:
-              - { label: "Link de Mercado Pago", name: "mercadopago_link", widget: "string", hint: "Link de pago de Mercado Pago. Ej: https://mpago.la/XXXXXXX" }
+              - { label: "Link de Mercado Pago (general)", name: "mercadopago_link", widget: "string", hint: "Se usa si un curso no tiene su propio link. Ej: https://mpago.la/XXXXXXX" }
               - { label: "WhatsApp para pago (solo números)", name: "whatsapp_pago", widget: "string" }
-              - { label: "Texto del disclaimer de pago", name: "disclaimer_pago", widget: "text", hint: "Aparece en la página de pago" }
+              - { label: "Texto del disclaimer de pago", name: "disclaimer_pago", widget: "text" }
