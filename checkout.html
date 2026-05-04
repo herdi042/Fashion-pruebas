@@ -525,25 +525,14 @@
   }
 
   // ── CARGAR CURSOS DESDE JSON ──
-  const COURSE_FILES = ['costura', 'diseno-moda', 'patronaje', 'fotografia'];
-
   async function loadCourses() {
     try {
-      // Intentar leer índice dinámico primero
-      let files = COURSE_FILES;
-      try {
-        const idxRes = await fetch('data/cursos-index.json');
-        if (idxRes.ok) files = await idxRes.json();
-      } catch(e) {}
-
-      const results = await Promise.allSettled(
-        files.map(f => fetch('data/cursos/' + f + '.json').then(r => { if(!r.ok) throw new Error(f); return r.json(); }))
-      );
-      allCourses = results
-        .filter(r => r.status === 'fulfilled')
-        .map(r => r.value)
-        .filter(c => c.activo);
-      if (allCourses.length === 0) throw new Error('Sin cursos');
+      const res = await fetch('data/cursos.json');
+      if (!res.ok) throw new Error('No se pudo cargar cursos.json');
+      const data = await res.json();
+      const lista = data.cursos ? data.cursos : data;
+      allCourses = lista.filter(c => c.activo);
+      if (allCourses.length === 0) throw new Error('Sin cursos activos');
       renderCourseGrid();
     } catch (e) {
       allCourses = [
@@ -690,17 +679,19 @@
     document.getElementById('s-total').textContent = '$' + subtotal.toLocaleString() + ' MXN';
 
     // Botones de MP — uno por curso
-    const mpLink = siteConfig?.pagos?.mercadopago_link || MP_LINK_DEFAULT;
     const mpList = document.getElementById('mp-buttons-list');
-    mpList.innerHTML = selected.map(c => `
-      <a href="${mpLink}" target="_blank" class="btn-mp-pay">
-        <div class="curso-info">
-          <span class="curso-nombre">${c.nombre}</span>
-          <span class="curso-precio">$${c.precio.toLocaleString()} MXN</span>
-        </div>
-        <span class="mp-arrow">Pagar →</span>
-      </a>
-    `).join('');
+    mpList.innerHTML = selected.map(c => {
+      const mpLink = c.mercadopago_link || siteConfig?.pagos?.mercadopago_link || MP_LINK_DEFAULT;
+      return `
+        <a href="${mpLink}" target="_blank" class="btn-mp-pay">
+          <div class="curso-info">
+            <span class="curso-nombre">${c.nombre}</span>
+            <span class="curso-precio">$${c.precio.toLocaleString()} MXN</span>
+          </div>
+          <span class="mp-arrow">Pagar →</span>
+        </a>
+      `;
+    }).join('');
 
     // Botón de WhatsApp con mensaje prellenado
     const waNum = siteConfig?.pagos?.whatsapp_pago || WA_NUMBER;
@@ -758,3 +749,4 @@
 </script>
 </body>
 </html>
+
