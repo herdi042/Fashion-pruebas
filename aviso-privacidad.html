@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Aviso de Privacidad — Fashion Incubator México</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400&family=Playfair+Display:ital,wght@0,700;1,400;1,700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --red: #E8001D;
+      --white: #F5F5F0;
+      --black: #0A0A0A;
+      --grey: #111111;
+      --white-65: rgba(245,245,240,0.65);
+      --white-07: rgba(255,255,255,0.07);
+    }
+    html { scroll-behavior: smooth; }
+    body { background: var(--black); color: var(--white); font-family: 'DM Sans', sans-serif; }
+
+    /* NAVBAR */
+    .navbar {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 20px 48px;
+      border-bottom: 1px solid var(--white-07);
+      background: rgba(10,10,10,0.96);
+      position: sticky; top: 0; z-index: 50;
+      backdrop-filter: blur(4px);
+    }
+    .nav-logo { font-family: 'Bebas Neue', sans-serif; font-size: 24px; color: var(--white); text-decoration: none; }
+    .nav-back {
+      display: flex; align-items: center; gap: 8px;
+      font-size: 12px; font-weight: 300; letter-spacing: 1.5px;
+      text-transform: uppercase; color: var(--white-65);
+      text-decoration: none; transition: color 0.2s;
+    }
+    .nav-back:hover { color: var(--white); }
+
+    /* HERO SECCIÓN */
+    .aviso-hero {
+      background: var(--grey);
+      padding: 80px 48px 60px;
+      border-bottom: 1px solid var(--white-07);
+    }
+    .aviso-label {
+      display: flex; align-items: center; gap: 12px; margin-bottom: 24px;
+    }
+    .aviso-label-line { background: var(--red); height: 1px; width: 30px; }
+    .aviso-label-text { font-family: 'Bebas Neue', sans-serif; font-size: 11px; color: var(--red); letter-spacing: 4px; text-transform: uppercase; }
+    .aviso-title { font-family: 'Playfair Display', serif; font-size: clamp(36px, 5vw, 60px); font-weight: 700; line-height: 1.1; }
+    .aviso-title em { font-style: italic; color: var(--red); }
+    .aviso-empresa { font-weight: 300; font-size: 14px; color: var(--white-65); margin-top: 16px; line-height: 1.6; max-width: 640px; }
+
+    /* CONTENIDO */
+    .aviso-content { max-width: 860px; margin: 0 auto; padding: 72px 48px 100px; }
+
+    .aviso-section { margin-bottom: 56px; }
+    .aviso-section-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 26px; font-weight: 700;
+      color: var(--white); margin-bottom: 20px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--white-07);
+    }
+    .aviso-section-title em { font-style: italic; color: var(--red); }
+
+    .aviso-subtitle {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 12px; color: var(--red);
+      letter-spacing: 3px; text-transform: uppercase;
+      margin: 24px 0 12px;
+    }
+
+    p { font-weight: 300; font-size: 15px; color: var(--white-65); line-height: 1.8; margin-bottom: 14px; }
+
+    ul { list-style: none; margin-bottom: 16px; }
+    ul li {
+      position: relative; padding: 7px 0 7px 20px;
+      font-weight: 300; font-size: 15px; color: var(--white-65);
+      line-height: 1.7; border-bottom: 1px solid var(--white-07);
+    }
+    ul li::before { content: '→'; position: absolute; left: 0; top: 9px; color: var(--red); font-size: 11px; }
+
+    ol { list-style: none; counter-reset: item; margin-bottom: 16px; }
+    ol li {
+      counter-increment: item;
+      position: relative; padding: 7px 0 7px 28px;
+      font-weight: 300; font-size: 15px; color: var(--white-65);
+      line-height: 1.7; border-bottom: 1px solid var(--white-07);
+    }
+    ol li::before {
+      content: counter(item) '.';
+      position: absolute; left: 0; top: 9px;
+      color: var(--red); font-size: 12px; font-weight: 700;
+    }
+
+    /* GRID ARCO */
+    .arco-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--white-07); margin: 20px 0; }
+    .arco-item { background: var(--grey); padding: 24px; }
+    .arco-letra { font-family: 'Bebas Neue', sans-serif; font-size: 36px; color: var(--red); line-height: 1; margin-bottom: 6px; }
+    .arco-nombre { font-size: 13px; font-weight: 400; color: var(--white); margin-bottom: 4px; }
+    .arco-desc { font-size: 12px; font-weight: 300; color: var(--white-65); line-height: 1.5; }
+
+    /* CONTACTO BOX */
+    .contacto-box {
+      background: var(--grey);
+      border: 1px solid var(--white-07);
+      padding: 32px 36px;
+      margin-top: 16px;
+    }
+    .contacto-box p { margin-bottom: 6px; }
+    .contacto-box a { color: var(--red); text-decoration: none; }
+    .contacto-box a:hover { text-decoration: underline; }
+
+    /* FOOTER */
+    .aviso-footer {
+      background: var(--grey);
+      border-top: 1px solid var(--white-07);
+      padding: 32px 48px;
+      display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px;
+    }
+    .footer-copy { font-size: 12px; font-weight: 300; color: rgba(255,255,255,0.25); }
+    .footer-back {
+      font-family: 'Bebas Neue', sans-serif; font-size: 13px;
+      color: var(--red); letter-spacing: 2px; text-decoration: none;
+    }
+    .footer-back:hover { color: var(--white); }
+
+    @media (max-width: 700px) {
+      .navbar, .aviso-hero, .aviso-footer { padding-left: 24px; padding-right: 24px; }
+      .aviso-content { padding: 48px 24px 80px; }
+      .arco-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar">
+  <a href="index.html" class="nav-logo">FI<sub style="font-size:11px;">MX</sub></a>
+  <a href="index.html" class="nav-back">← Volver al inicio</a>
+</nav>
+
+<!-- HERO -->
+<div class="aviso-hero">
+  <div class="aviso-label">
+    <div class="aviso-label-line"></div>
+    <span class="aviso-label-text">Legal</span>
+  </div>
+  <h1 class="aviso-title">Aviso de<br><em>Privacidad</em></h1>
+  <p class="aviso-empresa">
+    FASHION INCUBATOR MEXICO, S.A.P.I. — Av. José Vasconcelos 621, Del Valle,
+    San Pedro Garza García, Nuevo León, C.P. 66220.<br>
+    En cumplimiento de la Ley Federal de Protección de Datos Personales en Posesión de los Particulares.
+  </p>
+</div>
+
+<!-- CONTENIDO -->
+<main class="aviso-content">
+
+  <!-- Obtención -->
+  <div class="aviso-section">
+    <h2 class="aviso-section-title">Obtención de datos <em>personales</em></h2>
+    <p>Para la navegación en el sitio Web <strong>https://www.fashionincubator.mx</strong>, no es necesaria la facilitación de ningún dato personal. Sin embargo, para la Asistencia en Chat en Línea y la Bolsa de Empleo se solicitan datos del particular para su continuidad con el servicio.</p>
+  </div>
+
+  <!-- Derechos -->
+  <div class="aviso-section">
+    <h2 class="aviso-section-title">Derechos del <em>Titular</em></h2>
+    <p>El Titular le informa que sobre sus datos personales tiene derecho a:</p>
+    <ul>
+      <li>Solicitar el acceso a los datos almacenados.</li>
+      <li>Solicitar una rectificación o la supresión.</li>
+      <li>Solicitar la limitación de su tratamiento.</li>
+      <li>Oponerse al tratamiento.</li>
+      <li>Solicitar la portabilidad de sus datos.</li>
+    </ul>
+    <p>El ejercicio de estos derechos es personal y por tanto debe ser ejercido directamente por el interesado, solicitándolo directamente al Titular.</p>
+    <p>Cuando usted se conecta al Sitio Web para mandar un correo al Titular, se suscribe a su boletín o contrata un producto o un servicio, está facilitando información de carácter personal de la que el responsable es el Titular. Esta información puede incluir datos como su dirección IP, nombre y apellidos, dirección física, correo electrónico, número de teléfono, y otra información.</p>
+  </div>
+
+  <!-- Datos que recabamos -->
+  <div class="aviso-section">
+    <h2 class="aviso-section-title">Datos personales que <em>recabamos</em></h2>
+    <p>Los datos personales que podemos obtener mediante formularios, registros, contacto directo o navegación en nuestra página web son:</p>
+    <ul>
+      <li>Nombre completo</li>
+      <li>Edad</li>
+      <li>Correo electrónico</li>
+      <li>Teléfono de contacto</li>
+      <li>Ciudad / Estado</li>
+      <li>Información relacionada con intereses educativos, laborales o musicales</li>
+      <li>Cualquier otro dato que usted proporcione voluntariamente mediante formularios o mensajes</li>
+    </ul>
+    <div class="aviso-subtitle">Datos personales sensibles</div>
+    <p>Esta institución <strong>no solicita ni recaba datos personales sensibles</strong> a través de la página web.</p>
+  </div>
+
+  <!-- Finalidades -->
+  <div class="aviso-section">
+    <h2 class="aviso-section-title">Finalidades del <em>tratamiento</em></h2>
+    <div class="aviso-subtitle">Finalidades primarias</div>
+    <ol>
+      <li>Dar respuesta a solicitudes de información sobre cursos, clases, programas o servicios.</li>
+      <li>Contactar al interesado por medios electrónicos o telefónicos.</li>
+      <li>Procesar inscripciones, reservaciones o solicitudes de prueba/clase muestra.</li>
+      <li>Enviar información relacionada con servicios contratados o solicitados.</li>
+    </ol>
+    <div class="aviso-subtitle">Finalidades secundarias (opcionales)</div>
+    <ul>
+      <li>Envío de promociones, newsletters, material informativo o publicitario.</li>
+      <li>Realizar análisis estadísticos de navegación o interés con fines de mejora del sitio web.</li>
+    </ul>
+    <p>En caso de que no desee que sus datos se utilicen para finalidades secundarias, puede manifestarlo enviando un correo a: <strong>fashionincubatormexico@gmail.com</strong></p>
+  </div>
+
+  <!-- Transferencias -->
+  <div class="aviso-section">
+    <h2 class="aviso-section-title">Transferencias de <em>datos</em></h2>
+    <p>Sus datos personales no serán compartidos con terceros, salvo en los siguientes casos:</p>
+    <ul>
+      <li>Autoridades competentes que lo soliciten legalmente.</li>
+      <li>Proveedores de servicios tecnológicos que apoyen en la administración del sitio web (hosting, correo, formularios), los cuales están obligados a proteger la información conforme a la ley.</li>
+    </ul>
+    <p>Fuera de estos casos, no realizamos transferencias de datos sin su consentimiento.</p>
+  </div>
+
+  <!-- Medidas de seguridad -->
+  <div class="aviso-section">
+    <h2 class="aviso-section-title">Medidas de <em>seguridad</em></h2>
+    <p>La institución implementa medidas técnicas, administrativas y físicas para proteger sus datos personales contra pérdida, alteración, destrucción o uso no autorizado:</p>
+    <ul>
+      <li>Conexiones seguras (SSL)</li>
+      <li>Protocolos internos de control de acceso</li>
+      <li>Resguardo seguro de bases de datos</li>
+      <li>Capacitación continua al personal autorizado</li>
+    </ul>
+  </div>
+
+  <!-- ARCO -->
+  <div class="aviso-section">
+    <h2 class="aviso-section-title">Derechos <em>ARCO</em></h2>
+    <p>Usted tiene derecho a ejercer los siguientes derechos:</p>
+    <div class="arco-grid">
+      <div class="arco-item">
+        <div class="arco-letra">A</div>
+        <div class="arco-nombre">Acceso</div>
+        <div class="arco-desc">Conocer qué datos personales tenemos de usted y cómo los usamos.</div>
+      </div>
+      <div class="arco-item">
+        <div class="arco-letra">R</div>
+        <div class="arco-nombre">Rectificación</div>
+        <div class="arco-desc">Corregir sus datos si son inexactos o incompletos.</div>
+      </div>
+      <div class="arco-item">
+        <div class="arco-letra">C</div>
+        <div class="arco-nombre">Cancelación</div>
+        <div class="arco-desc">Solicitar la eliminación de sus datos cuando sea procedente.</div>
+      </div>
+      <div class="arco-item">
+        <div class="arco-letra">O</div>
+        <div class="arco-nombre">Oposición</div>
+        <div class="arco-desc">Oponerse al tratamiento de sus datos para finalidades específicas.</div>
+      </div>
+    </div>
+    <p style="margin-top:16px;">Para ejercer estos derechos, envíe una solicitud a <strong>fashionincubatormexico@gmail.com</strong> indicando: nombre del titular, medio para recibir respuesta, identificación oficial, descripción del derecho que desea ejercer y documentos que faciliten la localización de sus datos. Responderemos dentro de los plazos establecidos por la Ley.</p>
+  </div>
+
+  <!-- Cookies -->
+  <div class="aviso-section">
+    <h2 class="aviso-section-title">Uso de cookies y <em>tecnologías similares</em></h2>
+    <p>Nuestro sitio web puede utilizar cookies, web beacons o tecnologías similares para:</p>
+    <ul>
+      <li>Mejorar la experiencia del usuario</li>
+      <li>Analizar rendimiento o comportamiento de navegación</li>
+      <li>Recordar preferencias</li>
+    </ul>
+    <p>Puede deshabilitar el uso de cookies desde su navegador. Al continuar navegando, acepta su uso conforme a este Aviso de Privacidad.</p>
+  </div>
+
+  <!-- Modificaciones -->
+  <div class="aviso-section">
+    <h2 class="aviso-section-title">Modificaciones al <em>Aviso de Privacidad</em></h2>
+    <p>Este Aviso de Privacidad puede actualizarse en cualquier momento debido a cambios legales o a políticas internas. La versión vigente estará siempre disponible en el sitio web.</p>
+  </div>
+
+  <!-- Contacto -->
+  <div class="aviso-section">
+    <h2 class="aviso-section-title">Contacto del <em>responsable</em></h2>
+    <p>Para cualquier duda o aclaración relacionada con este Aviso, puede comunicarse con nuestro Responsable de Datos Personales:</p>
+    <div class="contacto-box">
+      <p>Correo: <a href="mailto:fashionincubatormexico@gmail.com">fashionincubatormexico@gmail.com</a></p>
+      <p>Domicilio: Av. José Vasconcelos 621, Del Valle, San Pedro Garza García, Nuevo León, C.P. 66220.</p>
+    </div>
+  </div>
+
+  <!-- Jurisdicción -->
+  <div class="aviso-section">
+    <h2 class="aviso-section-title">Jurisdicción y <em>competencia</em></h2>
+    <p>Para la interpretación y cumplimiento del presente Aviso de Privacidad, las partes se someten a las leyes y tribunales de San Pedro Garza García, Nuevo León, renunciando a cualquier otro fuero que pudiera corresponderles.</p>
+  </div>
+
+  <!-- Aceptación -->
+  <div class="aviso-section">
+    <h2 class="aviso-section-title">Aceptación y <em>consentimiento</em></h2>
+    <p>Al utilizar nuestro sitio web y proporcionar datos personales mediante formularios o medios electrónicos, usted acepta y consiente el tratamiento de los mismos conforme a este Aviso de Privacidad.</p>
+  </div>
+
+</main>
+
+<!-- FOOTER -->
+<footer class="aviso-footer">
+  <span class="footer-copy">© 2025 Fashion Incubator México. Todos los derechos reservados.</span>
+  <a href="index.html" class="footer-back">← Volver al inicio</a>
+</footer>
+
+</body>
+</html>
