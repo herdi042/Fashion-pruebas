@@ -2,34 +2,40 @@
   "hero": {
     "slides": [
       {
-        "titulo_rojo": "AI",
-        "titulo_blanco": "EN LA MODA",
-        "descripcion": "El futuro del patronaje y diseño generativo aplicado a marcas de lujo o.",
-        "imagen": "/images/gemini_generated_image_3ldvix3ldvix3ldv.png"
-      },
-      {
         "titulo_rojo": "DISEÑO",
-        "titulo_blanco": "Y PATRONAJE",
-        "descripcion": "Fundamentos técnicos para la creación de siluetas contemporáneas.",
-        "imagen": ""
+        "titulo_blanco": "DE MODAS",
+        "descripcion": "Fundamentos básicos para el diseño de prendas de todo tipo.",
+        "imagen": "/images/4ccd48fc0db92b137cf5edb8ca2e2cef.jpg"
       },
       {
-        "titulo_rojo": "COSTURA DE",
-        "titulo_blanco": "HIGH FASHION",
-        "descripcion": "Técnicas de alta costura aplicadas al mercado contemporáneo.",
-        "imagen": ""
+        "titulo_rojo": "COSTURA",
+        "titulo_blanco": "MULTINIVEL",
+        "descripcion": "Técnicas de alta costura aplicadas a distintas telas y métodos.",
+        "imagen": "/images/1-.jpg"
       },
       {
-        "titulo_rojo": "ASISTENTE DE",
-        "titulo_blanco": "VESTUARIO",
-        "descripcion": "Protocolos técnicos de asistencia y vestuario en backstage.",
-        "imagen": ""
+        "imagen": "/images/7bbd40aedfb0d830ef5574e97a87cc3d.jpg",
+        "titulo_rojo": "PATRONAJE",
+        "titulo_blanco": "Y CONSTRUCCIÓN",
+        "descripcion": "Aprende a transformar tus ideas en prendas reales dominando patronaje, confección y construcción de moda desde cero."
+      },
+      {
+        "imagen": "/images/c8e6e266210ab710320c0f2a43876ac5.jpg",
+        "titulo_rojo": "ESTRATEGIA EN ",
+        "titulo_blanco": "REDES SOCIALES",
+        "descripcion": "Descubre cómo construir una estrategia digital efectiva para posicionar tu marca, conectar con tu audiencia y crecer en redes sociales."
+      },
+      {
+        "imagen": "/images/7e880c9a8b269106202935194bbf4206.jpg",
+        "titulo_rojo": "ENCUENTRA TU",
+        "titulo_blanco": "PROPÓSITO EMPRENDEDOR",
+        "descripcion": "Conecta tus ideas, talentos y metas para descubrir el propósito detrás de tu emprendimiento y construir una marca con dirección y significado."
       }
     ]
   },
   "general": {
     "que_es_titulo": "Fashion Incubator México",
-    "que_es_subtitulo": "Un espacio donde la educación, la comunidad y la industria se encuentran cerca de ti prueba.",
+    "que_es_subtitulo": "Un espacio donde la educación, la comunidad y la industria creativa se encuentran.",
     "que_es_descripcion": "Aquí no solo aprendes: desarrollas proyectos reales, conectas con otros creativos y encuentras oportunidades para crecer dentro del medio.",
     "escuela_descripcion": "Impulsamos el talento creativo local para posicionar a Monterrey en México como un referente en moda y arte. Facilitamos el desarrollo de creativos emergentes mediante formación práctica, acompañamiento y acceso a oportunidades reales.",
     "cta_titulo": "¿Listo para empezar?",
@@ -43,8 +49,8 @@
     "ciudad": "Monterrey, NL · México"
   },
   "pagos": {
-    "mercadopago_link": "https://mpago.la/2huCFP8",
+    "mercadopago_link": "https://link.mercadopago.com.mx/fashionincubatormx",
     "whatsapp_pago": "528115397380",
-    "disclaimer_pago": "Una vez realizado tu pago, envía tu comprobante por WhatsApp al número indicado para confirmar tu inscripción. Tu lugar queda reservado hasta que recibamos tu comprobante."
+    "disclaimer_pago": "Una vez realizado un pago, envía tu comprobante por WhatsApp al número indicado para confirmar tu inscripción. Tu lugar queda reservado hasta que recibamos tu comprobante."
   }
 }
