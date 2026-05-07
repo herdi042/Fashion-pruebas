@@ -6,7 +6,7 @@
       "duracion": "5 semanas",
       "precio": 5750,
       "nombre": "Costura (Grupo Fin de Semana)",
-      "descripcion": "Curso de costura dominical en México ideal para principiantes y personas que quieren aprender confección, uso de máquina de coser, ajustes de prendas y técnicas básicas de costura. En Fashion Incubator México aprendes de forma práctica a crear y transformar prendas mientras desarrollas habilidades creativas en moda y confección.",
+      "descripcion": "Curso de costura dominical en México ideal para principiantes y personas que quieren aprender confección, uso de máquina de coser, ajustes de prendas y técnicas básicas de costura. ",
       "activo": true,
       "imagen": "/images/1-.jpg",
       "incluye": [
@@ -30,7 +30,7 @@
       "duracion": "3 semanas",
       "precio": 8049,
       "nombre": "Diseño de Moda Multinivel",
-      "descripcion": "Curso intensivo de diseño de moda en México enfocado en creatividad, desarrollo de colección, ilustración de moda, styling y construcción de marca. En Fashion Incubator México\n aprendes de forma práctica y acelerada las bases del diseño de moda con mentoría especializada y proyectos reales para impulsar tu crecimiento creativo y profesional.",
+      "descripcion": "Curso intensivo de diseño de moda en México enfocado en creatividad, desarrollo de colección, ilustración de moda, styling y construcción de marca. ",
       "activo": true,
       "imagen": "/images/4ccd48fc0db92b137cf5edb8ca2e2cef.jpg",
       "incluye": [
@@ -54,7 +54,7 @@
       "duracion": "3 semanas",
       "precio": 8049,
       "nombre": "Patronaje y Construcción ",
-      "descripcion": "Curso intensivo de patronaje y construcción de prendas en México diseñado para aprender moldería, confección, fitting y desarrollo técnico de prendas desde cero. En Fashion Incubator México desarrollas habilidades prácticas en patronaje y costura con enfoque profesional para crear prendas bien estructuradas y listas para producción.",
+      "descripcion": "Curso intensivo de patronaje y construcción de prendas en México diseñado para aprender moldería, confección, fitting y desarrollo técnico de prendas desde cero. ",
       "activo": true,
       "imagen": "/images/7bbd40aedfb0d830ef5574e97a87cc3d.jpg",
       "incluye": [
@@ -102,7 +102,7 @@
       "duracion": "4 semanas",
       "precio": 5751,
       "nombre": "Diseño de Modas Multinivel Sabatino",
-      "descripcion": "Curso sabatino de diseño de moda en México ideal para quienes buscan desarrollar su creatividad, aprender ilustración de moda, crear colecciones y entender el proceso de diseño desde cero. En Fashion Incubator México trabajas en proyectos prácticos con enfoque creativo, técnico y emprendedor dentro de la industria de la moda.",
+      "descripcion": "Curso sabatino de diseño de moda en México ideal para quienes buscan desarrollar su creatividad, aprender ilustración de moda, crear colecciones y entender el proceso de diseño desde cero. ",
       "activo": true,
       "imagen": "/images/4ccd48fc0db92b137cf5edb8ca2e2cef.jpg",
       "incluye": [
@@ -125,7 +125,7 @@
       "duracion": "1 sesión, 4hrs",
       "precio": 925,
       "nombre": "Masterclass Estrategia Digital",
-      "descripcion": "Masterclass (clase intensiva) de estrategia digital para marcas de moda y emprendimientos creativos enfocada en redes sociales, posicionamiento de marca, creación de contenido y crecimiento online. En Fashion Incubator México aprendes a desarrollar una estrategia digital efectiva para conectar con tu audiencia, aumentar tu presencia en Instagram y fortalecer tu marca en el mundo digital.",
+      "descripcion": "Masterclass (clase intensiva) de estrategia digital para marcas de moda y emprendimientos creativos enfocada en redes sociales, posicionamiento de marca, creación de contenido y crecimiento online. ",
       "activo": true,
       "imagen": "/images/c8e6e266210ab710320c0f2a43876ac5.jpg",
       "incluye": [
@@ -148,7 +148,7 @@
       "duracion": "1 sesión, 2hrs",
       "precio": 236,
       "nombre": "Masterclass Propósito Emprendedor",
-      "descripcion": "Masterclass de propósito emprendedor para creativos y emprendedores que buscan construir una marca con identidad, visión y dirección clara. En Fashion Incubator México exploras cómo definir el propósito de tu proyecto, conectar con tu audiencia y transformar tus ideas en una marca auténtica y estratégica.",
+      "descripcion": "Masterclass de propósito emprendedor para creativos y emprendedores que buscan construir una marca con identidad, visión y dirección clara. ",
       "activo": true,
       "imagen": "/images/7e880c9a8b269106202935194bbf4206.jpg",
       "incluye": [
